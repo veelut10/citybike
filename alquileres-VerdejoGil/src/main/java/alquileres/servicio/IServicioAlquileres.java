@@ -1,6 +1,6 @@
 package alquileres.servicio;
 
-import modelo.Usuario;
+import alquileres.modelo.Usuario;
 import repositorio.EntidadNoEncontrada;
 import repositorio.RepositorioException;
 

@@ -2,9 +2,9 @@ package alquileres.servicio;
 
 import java.time.LocalDateTime;
 
-import modelo.Alquiler;
-import modelo.Reserva;
-import modelo.Usuario;
+import alquileres.modelo.Alquiler;
+import alquileres.modelo.Reserva;
+import alquileres.modelo.Usuario;
 import repositorio.EntidadNoEncontrada;
 import repositorio.FactoriaRepositorios;
 import repositorio.Repositorio;

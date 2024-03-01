@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import modelo.Usuario;
+import alquileres.modelo.Usuario;
 import repositorio.EntidadNoEncontrada;
 import repositorio.Repositorio;
 import repositorio.RepositorioException;
