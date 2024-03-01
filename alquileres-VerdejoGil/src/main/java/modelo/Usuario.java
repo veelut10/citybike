@@ -1,17 +1,19 @@
 package modelo;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Usuario {
+import repositorio.Identificable;
+
+public class Usuario implements Identificable{
+	private static int contador = 0;
 	private String id;
-	private ArrayList<Reserva> reservas;
-	private ArrayList<Alquiler> alquileres;
+	private ArrayList<Reserva> reservas = new ArrayList<Reserva>();;
+	private ArrayList<Alquiler> alquileres = new ArrayList<Alquiler>();;
 	
 	public Usuario() {
-		this.reservas = new ArrayList<Reserva>();
-		this.alquileres = new ArrayList<Alquiler>();
+		this.id = String.valueOf(contador);
+		contador++;
 	}
 
 	public String getId() {
@@ -26,16 +28,24 @@ public class Usuario {
 		return reservas;
 	}
 
-	public void setReservas(ArrayList<Reserva> reservas) {
-		this.reservas = reservas;
+	public void addReserva(Reserva reserva) {
+		this.reservas.add(reserva);
+	}
+	
+	public void removeReserva(Reserva reserva) {
+		this.reservas.remove(reserva);
 	}
 
 	public ArrayList<Alquiler> getAlquileres() {
 		return alquileres;
 	}
 
-	public void setAlquileres(ArrayList<Alquiler> alquileres) {
-		this.alquileres = alquileres;
+	public void addAlquiler(Alquiler alquiler) {
+		this.alquileres.add(alquiler);
+	}
+	
+	public void removeAlquiler(Alquiler alquiler) {
+		this.alquileres.remove(alquiler);
 	}
 	
 	//Devuelve el número de reservas caducadas.
