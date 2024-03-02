@@ -3,6 +3,7 @@ package alquileres.repositorio;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import alquileres.modelo.Usuario;
 import repositorio.EntidadNoEncontrada;
@@ -10,7 +11,7 @@ import repositorio.RepositorioException;
 
 public class RepositorioMemoria implements RepositorioUsuario{
 	
-private HashMap<String, Usuario> usuarios = new HashMap<>();
+private Map<String, Usuario> usuarios = new HashMap<>();
 	
 	@Override
 	public String add(Usuario entity) throws RepositorioException {

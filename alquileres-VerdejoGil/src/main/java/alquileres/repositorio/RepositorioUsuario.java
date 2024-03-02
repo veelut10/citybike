@@ -1,7 +1,5 @@
 package alquileres.repositorio;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import alquileres.modelo.Usuario;

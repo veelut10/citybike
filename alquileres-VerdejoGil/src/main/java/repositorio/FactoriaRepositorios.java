@@ -13,7 +13,6 @@ public class FactoriaRepositorios {
 	
 	private static final String PROPERTIES = "repositorios.properties";
 	
-	
 	@SuppressWarnings("unchecked")
 	public static <T, K, R extends Repositorio<T, K>> R getRepositorio(Class<?> entidad) {
 				

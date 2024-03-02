@@ -2,14 +2,15 @@ package alquileres.modelo;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import repositorio.Identificable;
 
 public class Usuario implements Identificable{
 	private static int contador = 0;
 	private String id;
-	private ArrayList<Reserva> reservas = new ArrayList<Reserva>();;
-	private ArrayList<Alquiler> alquileres = new ArrayList<Alquiler>();;
+	private List<Reserva> reservas = new ArrayList<Reserva>();;
+	private List<Alquiler> alquileres = new ArrayList<Alquiler>();;
 	
 	public Usuario() {
 		this.id = String.valueOf(contador);
@@ -24,7 +25,7 @@ public class Usuario implements Identificable{
 		this.id = id;
 	}
 
-	public ArrayList<Reserva> getReservas() {
+	public List<Reserva> getReservas() {
 		return reservas;
 	}
 
@@ -36,7 +37,7 @@ public class Usuario implements Identificable{
 		this.reservas.remove(reserva);
 	}
 
-	public ArrayList<Alquiler> getAlquileres() {
+	public List<Alquiler> getAlquileres() {
 		return alquileres;
 	}
 

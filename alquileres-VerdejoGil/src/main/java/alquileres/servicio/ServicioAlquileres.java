@@ -9,13 +9,12 @@ import repositorio.EntidadNoEncontrada;
 import repositorio.FactoriaRepositorios;
 import repositorio.Repositorio;
 import repositorio.RepositorioException;
-import servicio.FactoriaServicios;
 
 public class ServicioAlquileres implements IServicioAlquileres{
 	
 	private Repositorio<Usuario, String> repositorioUsuarios = FactoriaRepositorios.getRepositorio(Usuario.class);
 	
-	IServicioEstaciones servicio = FactoriaServicios.getServicio(IServicioEstaciones.class);
+	//IServicioEstaciones servicio = FactoriaServicios.getServicio(IServicioEstaciones.class);
 
 	@Override
 	public void reservar(String idUsuario, String idBicicleta) throws RepositorioException, EntidadNoEncontrada {
@@ -26,8 +25,15 @@ public class ServicioAlquileres implements IServicioAlquileres{
 			
 		if (idBicicleta == null || idBicicleta.isEmpty())
 			throw new IllegalArgumentException("idBicicleta: no debe ser nulo ni vacio");
-			
-		Usuario usuario = repositorioUsuarios.getById(idUsuario);
+		
+		Usuario usuario = null;
+		try {
+			usuario = repositorioUsuarios.getById(idUsuario);
+		} catch (Exception e) {
+			usuario = new Usuario();
+			repositorioUsuarios.add(usuario);
+		}	
+		
 		System.out.println("Hola");
 		if(usuario.reservaActiva() == null && usuario.alquilerActivo() == null && !usuario.bloqueado() && !usuario.superaTiempo()) {
 			Reserva reserva = new Reserva(idBicicleta, LocalDateTime.now(), LocalDateTime.now().plusMinutes(30));
@@ -63,12 +69,22 @@ public class ServicioAlquileres implements IServicioAlquileres{
 		if (idBicicleta == null || idBicicleta.isEmpty())
 			throw new IllegalArgumentException("idBicicleta: no debe ser nulo ni vacio");
 		
-		Usuario usuario = repositorioUsuarios.getById(idUsuario);
-		if(usuario.reservaActiva() == null && usuario.alquilerActivo() == null && !usuario.bloqueado() && !usuario.superaTiempo()) {
-			Alquiler alquiler = new Alquiler(idBicicleta, LocalDateTime.now());
-			usuario.addAlquiler(alquiler);
+		Usuario usuario = null;
+		Alquiler alquiler = null;
+		try {
+			usuario = repositorioUsuarios.getById(idUsuario);
+			if(usuario.reservaActiva() == null && usuario.alquilerActivo() == null && !usuario.bloqueado() && !usuario.superaTiempo()) {
+				alquiler = new Alquiler(idBicicleta, LocalDateTime.now());
+				usuario.addAlquiler(alquiler);
+				repositorioUsuarios.update(usuario);
+			}
+		} catch (Exception e) {
+			usuario = new Usuario();
+			repositorioUsuarios.add(usuario);
+			alquiler = new Alquiler(idBicicleta, LocalDateTime.now());
 			repositorioUsuarios.update(usuario);
-		}
+
+		}	
 	}
 
 	@Override
@@ -92,9 +108,9 @@ public class ServicioAlquileres implements IServicioAlquileres{
 			throw new IllegalArgumentException("idBicicleta: no debe ser nulo ni vacio");
 		
 		Usuario usuario = repositorioUsuarios.getById(idUsuario);
-		if(usuario.alquilerActivo() != null && servicio.hasHuecoDisponible()) {
+		if(usuario.alquilerActivo() != null /* && servicio.hasHuecoDisponible() */) {
 			usuario.alquilerActivo().setFin(LocalDateTime.now());
-			servicio.situarBicicleta();
+			//servicio.situarBicicleta();
 			repositorioUsuarios.update(usuario);
 		}
 	}
