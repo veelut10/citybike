@@ -1,6 +1,7 @@
 package alquileres.servicio;
 
 import java.time.LocalDateTime;
+import java.util.Iterator;
 
 import alquileres.modelo.Alquiler;
 import alquileres.modelo.Reserva;
@@ -30,11 +31,10 @@ public class ServicioAlquileres implements IServicioAlquileres{
 		try {
 			usuario = repositorioUsuarios.getById(idUsuario);
 		} catch (Exception e) {
-			usuario = new Usuario();
+			usuario = new Usuario(idUsuario);
 			repositorioUsuarios.add(usuario);
 		}	
 		
-		System.out.println("Hola");
 		if(usuario.reservaActiva() == null && usuario.alquilerActivo() == null && !usuario.bloqueado() && !usuario.superaTiempo()) {
 			Reserva reserva = new Reserva(idBicicleta, LocalDateTime.now(), LocalDateTime.now().plusMinutes(30));
 			usuario.addReserva(reserva);
@@ -49,12 +49,20 @@ public class ServicioAlquileres implements IServicioAlquileres{
 		if (idUsuario == null || idUsuario.isEmpty())
 			throw new IllegalArgumentException("idUsuario: no debe ser nulo ni vacio");
 		
-		Usuario usuario = repositorioUsuarios.getById(idUsuario);
+		Usuario usuario = null;
+		try {
+			usuario = repositorioUsuarios.getById(idUsuario);
+		} catch (Exception e) {
+			usuario = new Usuario(idUsuario);
+			repositorioUsuarios.add(usuario);
+		}	
+		
 		Reserva reserva = usuario.reservaActiva();
 		if(reserva != null) {
 			String idBicicleta = reserva.getIdBicicleta();
 			Alquiler alquiler = new Alquiler(idBicicleta, LocalDateTime.now());
 			usuario.addAlquiler(alquiler);
+			usuario.removeReserva(reserva);
 			repositorioUsuarios.update(usuario);
 		}
 	}
@@ -73,18 +81,15 @@ public class ServicioAlquileres implements IServicioAlquileres{
 		Alquiler alquiler = null;
 		try {
 			usuario = repositorioUsuarios.getById(idUsuario);
-			if(usuario.reservaActiva() == null && usuario.alquilerActivo() == null && !usuario.bloqueado() && !usuario.superaTiempo()) {
-				alquiler = new Alquiler(idBicicleta, LocalDateTime.now());
-				usuario.addAlquiler(alquiler);
-				repositorioUsuarios.update(usuario);
-			}
 		} catch (Exception e) {
-			usuario = new Usuario();
+			usuario = new Usuario(idUsuario);
 			repositorioUsuarios.add(usuario);
-			alquiler = new Alquiler(idBicicleta, LocalDateTime.now());
-			repositorioUsuarios.update(usuario);
-
 		}	
+		if(usuario.reservaActiva() == null && usuario.alquilerActivo() == null && !usuario.bloqueado() && !usuario.superaTiempo()) {
+			alquiler = new Alquiler(idBicicleta, LocalDateTime.now());
+			usuario.addAlquiler(alquiler);
+			repositorioUsuarios.update(usuario);
+		}
 	}
 
 	@Override
@@ -94,6 +99,13 @@ public class ServicioAlquileres implements IServicioAlquileres{
 		if (idUsuario == null || idUsuario.isEmpty())	
 			throw new IllegalArgumentException("idUsuario: no debe ser nulo ni vacio");
 		
+		Usuario usuario = null;
+		try {
+			usuario = repositorioUsuarios.getById(idUsuario);
+		} catch (Exception e) {
+			usuario = new Usuario(idUsuario);
+			repositorioUsuarios.add(usuario);
+		}	
 		return repositorioUsuarios.getById(idUsuario);
 	}
 
@@ -122,11 +134,32 @@ public class ServicioAlquileres implements IServicioAlquileres{
 		if (idUsuario == null || idUsuario.isEmpty())
 			throw new IllegalArgumentException("idUsuario: no debe ser nulo ni vacio");
 				
-		Usuario usuario = repositorioUsuarios.getById(idUsuario);
-		for(Reserva r : usuario.getReservas()) {
-			if(r.isCaducada())
-				usuario.removeReserva(r);
+		Usuario usuario = null;
+		try {
+			usuario = repositorioUsuarios.getById(idUsuario);
+		} catch (Exception e) {
+			usuario = new Usuario(idUsuario);
+			repositorioUsuarios.add(usuario);
 		}
+		
+		Iterator<Reserva> iterator = usuario.getReservas().iterator();
+		while (iterator.hasNext()) {
+		    Reserva r = iterator.next();
+		    if (r.isCaducada()) {
+		        iterator.remove();
+		    }
+		}
+		
+		repositorioUsuarios.update(usuario);
+	}
+	
+	//Funcion para las pruebas de bloquado
+	public void setTiempos(String idUsuario) throws RepositorioException, EntidadNoEncontrada {
+		Usuario usuario = repositorioUsuarios.getById(idUsuario);
+		
+		for(Reserva r : usuario.getReservas())
+			r.setCaducidad(LocalDateTime.now().minusDays(1));
+		
 		repositorioUsuarios.update(usuario);
 	}
 	

@@ -7,14 +7,12 @@ import java.util.List;
 import repositorio.Identificable;
 
 public class Usuario implements Identificable{
-	private static int contador = 0;
 	private String id;
 	private List<Reserva> reservas = new ArrayList<Reserva>();;
 	private List<Alquiler> alquileres = new ArrayList<Alquiler>();;
 	
-	public Usuario() {
-		this.id = String.valueOf(contador);
-		contador++;
+	public Usuario(String id) {
+		this.id = id;
 	}
 
 	public String getId() {
@@ -92,24 +90,47 @@ public class Usuario implements Identificable{
 	
 	//Comprueba si hay alguna reserva activa
 	public Reserva reservaActiva() {
-		Reserva reserva = reservas.get(reservas.size() - 1);
-		if(reserva.isActiva())
-			return reserva;
-		else
-			return null;
+		if(reservas.size() > 0) {
+			Reserva reserva = reservas.get(reservas.size() - 1);
+			if(reserva.isActiva())
+				return reserva;
+		}
+		return null;
 	}
 	
 	//Comprueba si hay algun alquiler activo
 	public Alquiler alquilerActivo() {
-		Alquiler alquiler = alquileres.get(alquileres.size() - 1);
-		if(alquiler.isActivo())
-			return alquiler;
-		else
-			return null;
+		if(alquileres.size() > 0) {
+			Alquiler alquiler = alquileres.get(alquileres.size() - 1);
+			if(alquiler.isActivo())
+				return alquiler;
+		}
+		return null;
 	}
 	
 	//Comprueba si hay 3 o mas reservas caducadas
 	public boolean bloqueado() {
 		return reservasCaducadas() >= 3;
 	}
+
+	@Override
+	public String toString() {
+		String cadena = "Usuario [id=" + id + ", bloqueado =" + this.bloqueado() +", reservas=[";
+		
+		for(Reserva r : reservas) {
+			cadena += "[IdBici=" + r.getIdBicicleta() + ", Fecha creacion=" + r.getCreada() +  ", Fecha caducidad=" + r.getCaducidad() + "]";
+		}
+		
+		cadena += "] alquileres=[";
+		
+		for(Alquiler a : alquileres) {
+			cadena += "[IdBici=" + a.getIdBicicleta() + ", Fecha inicio=" + a.getInicio() +  ", Fecha fin=" + a.getFin() + "]";
+		}
+		
+		cadena += "]";
+		
+		return cadena;
+	}
+	
+	
 }
