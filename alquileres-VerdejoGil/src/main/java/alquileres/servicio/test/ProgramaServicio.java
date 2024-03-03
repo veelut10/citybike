@@ -14,7 +14,6 @@ public class ProgramaServicio {
 		String idBici = "1";
 		
 		servicioAlquileres.alquilar(idUsuario, idBici);
-		
 	}
 
 }
