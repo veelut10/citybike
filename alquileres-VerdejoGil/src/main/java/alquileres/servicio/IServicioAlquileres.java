@@ -23,4 +23,7 @@ public interface IServicioAlquileres {
 
     // Método para liberar bloqueo eliminando reservas caducadas
     public void liberarBloqueo(String idUsuario) throws RepositorioException, EntidadNoEncontrada;
+    
+    //Metodo para probar los usuarios bloqueados
+    public void setTiempos(String idUsuario) throws RepositorioException, EntidadNoEncontrada;
 }
