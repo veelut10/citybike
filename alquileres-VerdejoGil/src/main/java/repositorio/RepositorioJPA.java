@@ -78,15 +78,12 @@ public abstract class RepositorioJPA<T extends Identificable> implements Reposit
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		try {
 			T instance = em.find(getClase(), id);
-
 			if (instance != null) {
 				em.refresh(instance);
 			} else {
 				throw new EntidadNoEncontrada(id + " no existe en el repositorio");
 			}
-
 			return instance;
-
 		} catch (RuntimeException re) {
 			throw new RepositorioException("Error al recuperar la entidad con id " + id, re);
 		}
@@ -97,17 +94,11 @@ public abstract class RepositorioJPA<T extends Identificable> implements Reposit
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		try {
 			final String queryString = " SELECT model from " + getNombre() + " model ";
-
 			Query query = em.createQuery(queryString);
-
 			query.setHint(QueryHints.REFRESH, HintValues.TRUE);
-
 			return query.getResultList();
-
 		} catch (RuntimeException re) {
-
 			throw new RepositorioException("Error buscando todas las entidades de " + getNombre(), re);
-
 		}
 	}
 
@@ -116,18 +107,11 @@ public abstract class RepositorioJPA<T extends Identificable> implements Reposit
 		EntityManager em = EntityManagerHelper.getEntityManager();
 		try {
 			final String queryString = " SELECT model.id from " + getNombre() + " model ";
-
 			Query query = em.createQuery(queryString);
-
 			query.setHint(QueryHints.REFRESH, HintValues.TRUE);
-
 			return query.getResultList();
-
 		} catch (RuntimeException re) {
-
 			throw new RepositorioException("Error buscando todos los ids de " + getNombre(), re);
-
 		}
 	}
-
 }
