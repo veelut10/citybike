@@ -8,8 +8,8 @@ import repositorio.Identificable;
 
 public class Usuario implements Identificable{
 	private String id;
-	private List<Reserva> reservas = new ArrayList<Reserva>();;
-	private List<Alquiler> alquileres = new ArrayList<Alquiler>();;
+	private List<Reserva> reservas = new ArrayList<Reserva>();
+	private List<Alquiler> alquileres = new ArrayList<Alquiler>();
 	
 	public Usuario(String id) {
 		this.id = id;
