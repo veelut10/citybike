@@ -117,7 +117,7 @@ public class AlquileresControladorRest {
 		return Response.status(Response.Status.NO_CONTENT).build();
 	}
 	
-	// curl -i -X PUT -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/confirmarReserva
+	// curl -i -X PUT -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/liberar
 
 	@PUT
 	@Path("/{idUsuario}/liberar")
