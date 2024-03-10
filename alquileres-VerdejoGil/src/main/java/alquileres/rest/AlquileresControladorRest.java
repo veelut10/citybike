@@ -1,9 +1,8 @@
 package alquileres.rest;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import javax.ws.rs.Consumes;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -31,12 +30,20 @@ public class AlquileresControladorRest {
 	
 	@Context
 	private UriInfo uriInfo;
+	
+	// Para usar el controlador primero se necesitara un token que se generara mediante la funcion login:
+	
+	//curl -X POST http://localhost:8080/api/auth/login -H "Content-Type: application/x-www-form-urlencoded" -d "username=juan&password=clave"
 
-	// http://localhost:8080/api/alquileres/1
+	// Con la informacion de este token, si los claims tienen como rol="usuario" (la contruccion de los claims esta en ControladorAuth)
+	// el resto de funciones REST estara disponibles sustituyendo el token por jwt_token
+	
+	// curl -X GET http://localhost:8080/api/alquileres/1 -H "Authorization: Bearer jwt_token"
 	
 	@GET
 	@Path("{idUsuario}")
 	@Produces(MediaType.APPLICATION_JSON)
+	@RolesAllowed("usuario")
 	public Response getHistoria(@PathParam("idUsuario") String idUsuario) throws Exception {
 		
 		//Se obtiene el usuario
@@ -81,46 +88,51 @@ public class AlquileresControladorRest {
 		return Response.status(Response.Status.OK).entity(usuarioDTO).build();
 	}
 	
-	// curl -i -X POST -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/bicicleta/1/reservar
+	// curl -i -X POST -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/bicicleta/1/reserva -H "Authorization: Bearer jwt_token"
 
 	@POST
-	@Path("/{idUsuario}/bicicleta/{idBicicleta}/reservar")
+	@Path("/{idUsuario}/bicicleta/{idBicicleta}/reserva")
+	@RolesAllowed("usuario")
 	public Response reservar(@PathParam("idUsuario") String idUsuario, @PathParam("idBicicleta") String idBicicleta) throws Exception {
 		servicio.reservar(idUsuario, idBicicleta);
 		return Response.status(Response.Status.NO_CONTENT).build();
 	}
 	
-	// curl -i -X PUT -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/confirmar
+	// curl -i -X POST -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/confirmacion -H "Authorization: Bearer jwt_token"
 
-	@PUT
-	@Path("/{idUsuario}/confirmar")
+	@POST
+	@Path("/{idUsuario}/confirmacion")
+	@RolesAllowed("usuario")
 	public Response confirmarReserva(@PathParam("idUsuario") String idUsuario) throws Exception {
 		servicio.confirmarReserva(idUsuario);
 		return Response.status(Response.Status.NO_CONTENT).build();
 	}
 	
-	// curl -i -X POST -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/bicicleta/1/alquilar
+	// curl -i -X POST -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/bicicleta/1/alquiler -H "Authorization: Bearer jwt_token"
 
 	@POST
-	@Path("/{idUsuario}/bicicleta/{idBicicleta}/alquilar")
+	@Path("/{idUsuario}/bicicleta/{idBicicleta}/alquiler")
+	@RolesAllowed("usuario")
 	public Response alquilar(@PathParam("idUsuario") String idUsuario, @PathParam("idBicicleta") String idBicicleta) throws Exception {
 		servicio.alquilar(idUsuario, idBicicleta);
 		return Response.status(Response.Status.NO_CONTENT).build();
 	}
 	
-	// curl -i -X PUT -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/dejar
+	// curl -i -X PUT -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/estacion/1/deja -H "Authorization: Bearer jwt_token"
 
 	@PUT
-	@Path("/{idUsuario}/estacion/{idEstacion}/dejar")
+	@Path("/{idUsuario}/estacion/{idEstacion}/deja")
+	@RolesAllowed("usuario")
 	public Response dejarBicicleta(@PathParam("idUsuario") String idUsuario, @PathParam("idEstacion") String idEstacion) throws Exception {
 		servicio.dejarBicicleta(idUsuario, idEstacion);
 		return Response.status(Response.Status.NO_CONTENT).build();
 	}
 	
-	// curl -i -X PUT -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/liberar
+	// curl -i -X PUT -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/liberacion -H "Authorization: Bearer jwt_token"
 
 	@PUT
-	@Path("/{idUsuario}/liberar")
+	@Path("/{idUsuario}/liberacion")
+	@RolesAllowed("usuario")
 	public Response liberarBloqueo(@PathParam("idUsuario") String idUsuario) throws Exception {
 		servicio.liberarBloqueo(idUsuario);
 		return Response.status(Response.Status.NO_CONTENT).build();

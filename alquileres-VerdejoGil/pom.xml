@@ -79,6 +79,21 @@
 			<artifactId>jersey-media-json-gson</artifactId>
 			<version>2.41</version>
 		</dependency>
+		
+		<!-- dependencias Java JWT -->
+		<dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+   	 	</dependency>
+   	 	
+   	 	<!-- dependencias API Servlet -->
+   	 	<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
   	</dependencies>
   	
   	<!-- plugin de Jersey -->

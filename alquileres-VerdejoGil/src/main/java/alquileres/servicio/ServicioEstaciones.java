@@ -1,6 +1,6 @@
 package alquileres.servicio;
 
-public class ServicioEstaciones {
+public class ServicioEstaciones implements IServicioEstaciones{
 	public boolean hasHuecoDisponible() {
 		return true;
 	}
