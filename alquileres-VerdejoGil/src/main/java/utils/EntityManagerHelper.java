@@ -11,7 +11,7 @@ public class EntityManagerHelper {
 	private static final ThreadLocal<EntityManager> entityManagerHolder;
 
 	static {
-		entityManagerFactory = Persistence.createEntityManagerFactory("journals");
+		entityManagerFactory = Persistence.createEntityManagerFactory("alquileres");
 		entityManagerHolder = new ThreadLocal<EntityManager>();
 	}
 

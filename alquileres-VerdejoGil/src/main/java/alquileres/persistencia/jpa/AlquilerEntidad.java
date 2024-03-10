@@ -1,7 +1,7 @@
 package alquileres.persistencia.jpa;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,25 +16,23 @@ import repositorio.Identificable;
 @Table(name="alquiler")
 
 public class AlquilerEntidad implements Identificable,Serializable {
-
 	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
 
 	@Column(name = "idbicicleta")
 	private String idBicicleta;
 	
 	@Column(name = "fecha_inicio", columnDefinition = "DATE")
-	private LocalDate fechaInicio;
+	private Date fechaInicio;
 
 	@Column(name = "fecha_fin", columnDefinition = "DATE")
-	private LocalDate fechaFin;
-
-	public AlquilerEntidad(String id, String idBicicleta, LocalDate fechaInicio, LocalDate fechaFin) {
-		this.id = id;
+	private Date fechaFin;
+	
+	public AlquilerEntidad(String idBicicleta, Date fechaInicio, Date fechaFin) {
 		this.idBicicleta = idBicicleta;
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
@@ -61,23 +59,19 @@ public class AlquilerEntidad implements Identificable,Serializable {
 		this.idBicicleta = idBicicleta;
 	}
 
-	public LocalDate getFechaInicio() {
+	public Date getFechaInicio() {
 		return fechaInicio;
 	}
 
-	public void setFechaInicio(LocalDate fechaInicio) {
+	public void setFechaInicio(Date fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
 
-	public LocalDate getFechaFin() {
+	public Date getFechaFin() {
 		return fechaFin;
 	}
 
-	public void setFechaFin(LocalDate fechaFin) {
+	public void setFechaFin(Date fechaFin) {
 		this.fechaFin = fechaFin;
 	}
-	
-	
-
-	
 }

@@ -13,6 +13,9 @@ public class Alquiler {
 		this.inicio = inicio;
 	}
 
+	public Alquiler() {
+	}
+
 	public String getIdBicicleta() {
 		return idBicicleta;
 	}

@@ -13,31 +13,28 @@ public class Reserva {
 		this.caducidad = caducidad;
 	}
 	
-	
+	public Reserva() {
+	}
+
 	public String getIdBicicleta() {
 		return idBicicleta;
 	}
-
 
 	public void setIdBicicleta(String idBicicleta) {
 		this.idBicicleta = idBicicleta;
 	}
 
-
 	public LocalDateTime getCreada() {
 		return creada;
 	}
-
 
 	public void setCreada(LocalDateTime creada) {
 		this.creada = creada;
 	}
 
-
 	public LocalDateTime getCaducidad() {
 		return caducidad;
 	}
-
 
 	public void setCaducidad(LocalDateTime caducidad) {
 		this.caducidad = caducidad;

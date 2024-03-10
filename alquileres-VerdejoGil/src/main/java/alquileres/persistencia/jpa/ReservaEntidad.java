@@ -1,7 +1,7 @@
 package alquileres.persistencia.jpa;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,19 +19,19 @@ public class ReservaEntidad implements Identificable, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
 
 	@Column(name = "idbicicleta")
 	private String idBicicleta;
 
 	@Column(name = "fecha_creacion", columnDefinition = "DATE")
-	private LocalDate fechaCreacion;
+	private Date fechaCreacion;
 
 	@Column(name = "fecha_caducidad", columnDefinition = "DATE")
-	private LocalDate fechaCaducidad;
+	private Date fechaCaducidad;
 
-	public ReservaEntidad(String id, String idBicicleta, LocalDate fechaCreacion, LocalDate fechaCaducidad) {
+	public ReservaEntidad(String id, String idBicicleta, Date fechaCreacion, Date fechaCaducidad) {
 		this.id = id;
 		this.idBicicleta = idBicicleta;
 		this.fechaCreacion = fechaCreacion;
@@ -59,21 +59,19 @@ public class ReservaEntidad implements Identificable, Serializable {
 		this.idBicicleta = idBicicleta;
 	}
 
-	public LocalDate getFechaCreacion() {
+	public Date getFechaCreacion() {
 		return fechaCreacion;
 	}
 
-	public void setFechaCreacion(LocalDate fechaCreacion) {
+	public void setFechaCreacion(Date fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public LocalDate getFechaCaducidad() {
+	public Date getFechaCaducidad() {
 		return fechaCaducidad;
 	}
 
-	public void setFechaCaducidad(LocalDate fechaCaducidad) {
+	public void setFechaCaducidad(Date fechaCaducidad) {
 		this.fechaCaducidad = fechaCaducidad;
 	}
-
-
 }

@@ -12,7 +12,7 @@ public class ProgramaServicio {
 		servicioAlquileres = FactoriaServicios.getServicio(IServicioAlquileres.class);
 		
 		Usuario usuario = null;
-		String idUsuario = "1";
+		String idUsuario = "1023";
 		String idUsuario2 = "2";
 		String idUsuario3 = "3";
 		String idBici = "1";

@@ -15,6 +15,12 @@ public class Usuario implements Identificable{
 		this.id = id;
 	}
 
+	public Usuario(String id, List<Reserva> reservas, List<Alquiler> alquileres) {
+		this.id = id;
+		this.reservas = reservas;
+		this.alquileres = alquileres;
+	}
+
 	public String getId() {
 		return id;
 	}
