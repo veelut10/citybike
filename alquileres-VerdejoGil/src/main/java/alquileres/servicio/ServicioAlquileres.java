@@ -49,6 +49,7 @@ public class ServicioAlquileres implements IServicioAlquileres{
 			repositorioUsuarios.add(usuarioEntidad);
 		}	
 		
+		// Comprobar que no haya reserva o alquiler activo, que el usuario no este bloqueado ni se supere el tiempo limite
 		if(usuario.reservaActiva() == null && usuario.alquilerActivo() == null && !usuario.bloqueado() && !usuario.superaTiempo()) {
 			Reserva reserva = new Reserva(idBicicleta, LocalDateTime.now(), LocalDateTime.now().plusMinutes(30));
 			usuario.addReserva(reserva);
@@ -78,6 +79,8 @@ public class ServicioAlquileres implements IServicioAlquileres{
 		}	
 		
 		Reserva reserva = usuario.reservaActiva();
+		
+		// Comprobar que haya una reserva activa
 		if(reserva != null) {
 			String idBicicleta = reserva.getIdBicicleta();
 			Alquiler alquiler = new Alquiler(idBicicleta, LocalDateTime.now());
@@ -111,6 +114,8 @@ public class ServicioAlquileres implements IServicioAlquileres{
 			usuarioEntidad = convertirModeloToEntidad(usuario);
 			repositorioUsuarios.add(usuarioEntidad);
 		}	
+		
+		// Comprobar que no haya reserva o alquiler activo, que el usuario no este bloqueado ni se supere el tiempo limite
 		if(usuario.reservaActiva() == null && usuario.alquilerActivo() == null && !usuario.bloqueado() && !usuario.superaTiempo()) {
 			alquiler = new Alquiler(idBicicleta, LocalDateTime.now());
 			usuario.addAlquiler(alquiler);
@@ -153,6 +158,8 @@ public class ServicioAlquileres implements IServicioAlquileres{
 		
 		UsuarioEntidad usuarioEntidad = repositorioUsuarios.getById(idUsuario);
 		Usuario usuario = convertirEntidadToModelo(usuarioEntidad);
+		
+		// Comprobar que haya un alquiler activo
 		if(usuario.alquilerActivo() != null /* && servicio.hasHuecoDisponible() */) {
 			usuario.alquilerActivo().setFin(LocalDateTime.now());
 			//servicio.situarBicicleta();

@@ -17,14 +17,14 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Path("auth")
 public class ControladorAuth {
 	
-	//curl -X POST http://localhost:8080/api/auth/login -H "Content-Type: application/x-www-form-urlencoded" -d "username=juan&password=clave"
+	//curl -X POST http://localhost:8080/api/auth/login -H "Content-Type: application/x-www-form-urlencoded" -d "username=juan&password=clave&rol=usuario"
 	
 	@POST
 	@Path("/login")
 	@PermitAll
-	public Response login(@FormParam("username") String username, @FormParam("password") String password) {
+	public Response login(@FormParam("username") String username, @FormParam("password") String password, @FormParam("rol") String rol) {
 
-		Map<String, Object> claims = verificarCredenciales(username, password);
+		Map<String, Object> claims = verificarCredenciales(username, password, rol);
 		if (claims != null) {
 			Date caducidad = Date.from(Instant.now().plusSeconds(3600)); // 1 hora de validez
 			String token = Jwts.builder()
@@ -39,10 +39,10 @@ public class ControladorAuth {
 	}
 	
 		
-	private Map<String, Object> verificarCredenciales(String username, String password) {
+	private Map<String, Object> verificarCredenciales(String username, String password, String rol) {
 		Map<String, Object> claims = new HashMap<String, Object>();
 		claims.put("sub", username);
-		claims.put("roles", "usuario");
+		claims.put("roles", rol);
 		
 		return claims;
 	}

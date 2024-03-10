@@ -118,9 +118,9 @@ public class AlquileresControladorRest {
 		return Response.status(Response.Status.NO_CONTENT).build();
 	}
 	
-	// curl -i -X PUT -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/estacion/1/deja -H "Authorization: Bearer jwt_token"
+	// curl -i -X POST -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/estacion/1/deja -H "Authorization: Bearer jwt_token"
 
-	@PUT
+	@POST
 	@Path("/{idUsuario}/estacion/{idEstacion}/deja")
 	@RolesAllowed("usuario")
 	public Response dejarBicicleta(@PathParam("idUsuario") String idUsuario, @PathParam("idEstacion") String idEstacion) throws Exception {
@@ -132,7 +132,7 @@ public class AlquileresControladorRest {
 
 	@PUT
 	@Path("/{idUsuario}/liberacion")
-	@RolesAllowed("usuario")
+	@RolesAllowed("gestor")
 	public Response liberarBloqueo(@PathParam("idUsuario") String idUsuario) throws Exception {
 		servicio.liberarBloqueo(idUsuario);
 		return Response.status(Response.Status.NO_CONTENT).build();
