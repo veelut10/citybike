@@ -220,8 +220,8 @@ public class ServicioAlquileres implements IServicioAlquileres{
             reserva.setId(String.valueOf(ID));
             ID++;
             reserva.setIdBicicleta(r.getIdBicicleta());
-            reserva.setFechaCreacion(java.sql.Date.valueOf(r.getCreada().toLocalDate()));
-            reserva.setFechaCaducidad(java.sql.Date.valueOf(r.getCaducidad().toLocalDate()));
+            reserva.setFechaCreacion(r.getCreada().toString());
+            reserva.setFechaCaducidad(r.getCaducidad().toString());
             reservas.add(reserva);
         }
 
@@ -230,11 +230,11 @@ public class ServicioAlquileres implements IServicioAlquileres{
             alquiler.setId(String.valueOf(ID));
             ID++;
             alquiler.setIdBicicleta(a.getIdBicicleta());
-            alquiler.setFechaInicio(java.sql.Date.valueOf(a.getInicio().toLocalDate()));
+            alquiler.setFechaInicio(a.getInicio().toString());
             if(a.getFin() == null)
                 alquiler.setFechaFin(null);
             else
-                alquiler.setFechaFin(java.sql.Date.valueOf(a.getFin().toLocalDate()));
+                alquiler.setFechaFin(a.getFin().toString());
             alquileres.add(alquiler);
         }
         
@@ -249,27 +249,19 @@ public class ServicioAlquileres implements IServicioAlquileres{
 	    for (ReservaEntidad r : usuarioEntidad.getReservas()) {
 	        Reserva reserva = new Reserva();
 	        reserva.setIdBicicleta(r.getIdBicicleta());
-	        Instant instant = Instant.ofEpochMilli(r.getFechaCreacion().getTime());
-	        LocalDateTime tiempo = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-	        reserva.setCreada(tiempo);
-	        Instant instantfin = Instant.ofEpochMilli(r.getFechaCaducidad().getTime());
-	        LocalDateTime tiempo2 = LocalDateTime.ofInstant(instantfin, ZoneId.systemDefault());
-	        reserva.setCaducidad(tiempo2);
+	        reserva.setCreada(LocalDateTime.parse(r.getFechaCreacion()));
+	        reserva.setCaducidad(LocalDateTime.parse(r.getFechaCaducidad()));
 	        reservas.add(reserva);
 	    }
 
 	    for (AlquilerEntidad a : usuarioEntidad.getAlquileres()) {
 	        Alquiler alquiler = new Alquiler();
 	        alquiler.setIdBicicleta(a.getIdBicicleta());
-	        Instant instant = Instant.ofEpochMilli(a.getFechaInicio().getTime());
-	        LocalDateTime tiempo = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-	        alquiler.setInicio(tiempo);
+	        alquiler.setInicio(LocalDateTime.parse(a.getFechaInicio()));
 	        if (a.getFechaFin() == null) {
 	            alquiler.setFin(null);
 	        } else {
-	        	Instant instant2 = Instant.ofEpochMilli(a.getFechaFin().getTime());
-		        LocalDateTime tiempo2 = LocalDateTime.ofInstant(instant2, ZoneId.systemDefault());
-	            alquiler.setFin(tiempo2);
+	            alquiler.setFin(LocalDateTime.parse(a.getFechaFin()));
 	        }
 	        alquileres.add(alquiler);
 	    }

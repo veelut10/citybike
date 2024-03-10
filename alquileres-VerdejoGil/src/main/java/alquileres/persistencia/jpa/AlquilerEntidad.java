@@ -2,6 +2,7 @@ package alquileres.persistencia.jpa;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,13 +27,13 @@ public class AlquilerEntidad implements Identificable,Serializable {
 	@Column(name = "idbicicleta")
 	private String idBicicleta;
 	
-	@Column(name = "fecha_inicio", columnDefinition = "DATE")
-	private Date fechaInicio;
+	@Column(name = "fecha_inicio")
+	private String fechaInicio;
 
-	@Column(name = "fecha_fin", columnDefinition = "DATE")
-	private Date fechaFin;
+	@Column(name = "fecha_fin")
+	private String fechaFin;
 	
-	public AlquilerEntidad(String idBicicleta, Date fechaInicio, Date fechaFin) {
+	public AlquilerEntidad(String idBicicleta, String fechaInicio, String fechaFin) {
 		this.idBicicleta = idBicicleta;
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
@@ -59,19 +60,19 @@ public class AlquilerEntidad implements Identificable,Serializable {
 		this.idBicicleta = idBicicleta;
 	}
 
-	public Date getFechaInicio() {
+	public String getFechaInicio() {
 		return fechaInicio;
 	}
 
-	public void setFechaInicio(Date fechaInicio) {
+	public void setFechaInicio(String fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
 
-	public Date getFechaFin() {
+	public String getFechaFin() {
 		return fechaFin;
 	}
 
-	public void setFechaFin(Date fechaFin) {
+	public void setFechaFin(String fechaFin) {
 		this.fechaFin = fechaFin;
 	}
 }
