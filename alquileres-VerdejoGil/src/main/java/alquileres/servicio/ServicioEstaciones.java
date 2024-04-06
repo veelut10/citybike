@@ -1,11 +1,14 @@
 package alquileres.servicio;
 
 public class ServicioEstaciones implements IServicioEstaciones{
-	public boolean hasHuecoDisponible() {
+	
+	@Override
+	public boolean hasHuecoDisponible(String idEstacion) {
 		return true;
 	}
 	
-	public boolean situarBicicleta() {
+	@Override
+	public boolean situarBicicleta(String idEstacion) {
 		return true;
 	}
 }

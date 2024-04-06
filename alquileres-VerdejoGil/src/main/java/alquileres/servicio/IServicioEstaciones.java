@@ -1,7 +1,7 @@
 package alquileres.servicio;
 
 public interface IServicioEstaciones {
-	public boolean hasHuecoDisponible();
+	public boolean hasHuecoDisponible(String idEstacion);
 	
-	public boolean situarBicicleta();
+	public boolean situarBicicleta(String idEstacion);
 }

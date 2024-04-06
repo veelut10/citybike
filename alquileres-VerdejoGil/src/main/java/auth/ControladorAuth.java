@@ -11,20 +11,27 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
+import alquileres.servicio.IServicioUsuarios;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import servicio.FactoriaServicios;
 
 @Path("auth")
 public class ControladorAuth {
 	
-	//curl -X POST http://localhost:8080/api/auth/login -H "Content-Type: application/x-www-form-urlencoded" -d "username=juan&password=clave&rol=usuario"
+	IServicioUsuarios servicioUsuarios = FactoriaServicios.getServicio(IServicioUsuarios.class);
 	
+	//curl -X POST http://localhost:8080/api/auth/login -H "Content-Type: application/x-www-form-urlencoded" -d "username=usuario&password=usuario"
+	
+	
+	//curl -X POST http://localhost:8080/api/auth/login -H "Content-Type: application/x-www-form-urlencoded" -d "username=gestor&password=gestor"
+
 	@POST
 	@Path("/login")
 	@PermitAll
-	public Response login(@FormParam("username") String username, @FormParam("password") String password, @FormParam("rol") String rol) {
+	public Response login(@FormParam("username") String username, @FormParam("password") String password) {
 
-		Map<String, Object> claims = verificarCredenciales(username, password, rol);
+		Map<String, Object> claims = servicioUsuarios.verificarCredenciales(username, password);
 		if (claims != null) {
 			Date caducidad = Date.from(Instant.now().plusSeconds(3600)); // 1 hora de validez
 			String token = Jwts.builder()
@@ -37,14 +44,4 @@ public class ControladorAuth {
 			return Response.status(Response.Status.UNAUTHORIZED).entity("Credenciales inválidas").build();
 		}
 	}
-	
-		
-	private Map<String, Object> verificarCredenciales(String username, String password, String rol) {
-		Map<String, Object> claims = new HashMap<String, Object>();
-		claims.put("sub", username);
-		claims.put("roles", rol);
-		
-		return claims;
-	}
-
 }

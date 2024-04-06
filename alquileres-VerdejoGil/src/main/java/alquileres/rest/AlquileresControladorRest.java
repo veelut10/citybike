@@ -3,6 +3,7 @@ package alquileres.rest;
 import java.util.ArrayList;
 
 import javax.annotation.security.RolesAllowed;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -88,39 +89,39 @@ public class AlquileresControladorRest {
 		return Response.status(Response.Status.OK).entity(usuarioDTO).build();
 	}
 	
-	// curl -i -X POST -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/bicicleta/1/reserva -H "Authorization: Bearer jwt_token"
+	// curl -i -X POST --data "idBicicleta=1" http://localhost:8080/api/alquileres/1/reserva -H "Authorization: Bearer jwt_token"
 
 	@POST
-	@Path("/{idUsuario}/bicicleta/{idBicicleta}/reserva")
+	@Path("/{idUsuario}/reserva")
 	@RolesAllowed("usuario")
-	public Response reservar(@PathParam("idUsuario") String idUsuario, @PathParam("idBicicleta") String idBicicleta) throws Exception {
+	public Response reservar(@PathParam("idUsuario") String idUsuario, @FormParam("idBicicleta") String idBicicleta) throws Exception {
 		servicio.reservar(idUsuario, idBicicleta);
 		return Response.status(Response.Status.NO_CONTENT).build();
 	}
 	
-	// curl -i -X POST -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/confirmacion -H "Authorization: Bearer jwt_token"
+	// curl -i -X POST -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/confirma -H "Authorization: Bearer jwt_token"
 
 	@POST
-	@Path("/{idUsuario}/confirmacion")
+	@Path("/{idUsuario}/confirma")
 	@RolesAllowed("usuario")
 	public Response confirmarReserva(@PathParam("idUsuario") String idUsuario) throws Exception {
 		servicio.confirmarReserva(idUsuario);
 		return Response.status(Response.Status.NO_CONTENT).build();
 	}
 	
-	// curl -i -X POST -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/bicicleta/1/alquiler -H "Authorization: Bearer jwt_token"
+	// curl -i -X POST --data "idBicicleta=1" http://localhost:8080/api/alquileres/1/alquiler -H "Authorization: Bearer jwt_token"
 
 	@POST
-	@Path("/{idUsuario}/bicicleta/{idBicicleta}/alquiler")
+	@Path("/{idUsuario}/alquiler")
 	@RolesAllowed("usuario")
-	public Response alquilar(@PathParam("idUsuario") String idUsuario, @PathParam("idBicicleta") String idBicicleta) throws Exception {
+	public Response alquilar(@PathParam("idUsuario") String idUsuario, @FormParam("idBicicleta") String idBicicleta) throws Exception {
 		servicio.alquilar(idUsuario, idBicicleta);
 		return Response.status(Response.Status.NO_CONTENT).build();
 	}
 	
-	// curl -i -X POST -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/estacion/1/deja -H "Authorization: Bearer jwt_token"
+	// curl -i -X PUT -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/estacion/1/deja -H "Authorization: Bearer jwt_token"
 
-	@POST
+	@PUT
 	@Path("/{idUsuario}/estacion/{idEstacion}/deja")
 	@RolesAllowed("usuario")
 	public Response dejarBicicleta(@PathParam("idUsuario") String idUsuario, @PathParam("idEstacion") String idEstacion) throws Exception {
@@ -128,10 +129,10 @@ public class AlquileresControladorRest {
 		return Response.status(Response.Status.NO_CONTENT).build();
 	}
 	
-	// curl -i -X PUT -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/liberacion -H "Authorization: Bearer jwt_token"
+	// curl -i -X PUT -H "Content-type: application/json" http://localhost:8080/api/alquileres/1/libera -H "Authorization: Bearer jwt_token"
 
 	@PUT
-	@Path("/{idUsuario}/liberacion")
+	@Path("/{idUsuario}/libera")
 	@RolesAllowed("gestor")
 	public Response liberarBloqueo(@PathParam("idUsuario") String idUsuario) throws Exception {
 		servicio.liberarBloqueo(idUsuario);

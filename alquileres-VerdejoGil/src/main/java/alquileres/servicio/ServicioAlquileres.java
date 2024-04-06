@@ -1,30 +1,22 @@
 package alquileres.servicio;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import alquileres.modelo.Alquiler;
 import alquileres.modelo.Reserva;
 import alquileres.modelo.Usuario;
-import alquileres.persistencia.jpa.AlquilerEntidad;
-import alquileres.persistencia.jpa.ReservaEntidad;
-import alquileres.persistencia.jpa.UsuarioEntidad;
 import repositorio.EntidadNoEncontrada;
 import repositorio.FactoriaRepositorios;
 import repositorio.Repositorio;
 import repositorio.RepositorioException;
+import servicio.FactoriaServicios;
 
 public class ServicioAlquileres implements IServicioAlquileres{
 	
-	private Repositorio<UsuarioEntidad, String> repositorioUsuarios = FactoriaRepositorios.getRepositorio(UsuarioEntidad.class);
+	private Repositorio<Usuario, String> repositorioUsuarios = FactoriaRepositorios.getRepositorio(Usuario.class);
 	
-	//IServicioEstaciones servicio = FactoriaServicios.getServicio(IServicioEstaciones.class);
-
-	private static int ID = 0;
+	IServicioEstaciones servicioEstaciones = FactoriaServicios.getServicio(IServicioEstaciones.class);
 	
 	@Override
 	public void reservar(String idUsuario, String idBicicleta) throws RepositorioException, EntidadNoEncontrada {
@@ -37,24 +29,17 @@ public class ServicioAlquileres implements IServicioAlquileres{
 			throw new IllegalArgumentException("idBicicleta: no debe ser nulo ni vacio");
 		
 		Usuario usuario = null;
-		UsuarioEntidad usuarioEntidad = null;
 		try {
-			usuarioEntidad = repositorioUsuarios.getById(idUsuario);
-			if(usuarioEntidad != null) {
-				usuario = convertirEntidadToModelo(usuarioEntidad);
-			}
+			usuario = repositorioUsuarios.getById(idUsuario);
 		} catch (Exception e) {
 			usuario = new Usuario(idUsuario);
-			usuarioEntidad = convertirModeloToEntidad(usuario);
-			repositorioUsuarios.add(usuarioEntidad);
+			repositorioUsuarios.add(usuario);
 		}	
 		
-		// Comprobar que no haya reserva o alquiler activo, que el usuario no este bloqueado ni se supere el tiempo limite
 		if(usuario.reservaActiva() == null && usuario.alquilerActivo() == null && !usuario.bloqueado() && !usuario.superaTiempo()) {
 			Reserva reserva = new Reserva(idBicicleta, LocalDateTime.now(), LocalDateTime.now().plusMinutes(30));
 			usuario.addReserva(reserva);
-			usuarioEntidad = convertirModeloToEntidad(usuario);
-			repositorioUsuarios.update(usuarioEntidad);
+			repositorioUsuarios.update(usuario);
 		}
 	}
 
@@ -66,28 +51,20 @@ public class ServicioAlquileres implements IServicioAlquileres{
 			throw new IllegalArgumentException("idUsuario: no debe ser nulo ni vacio");
 		
 		Usuario usuario = null;
-		UsuarioEntidad usuarioEntidad = null;
 		try {
-			usuarioEntidad = repositorioUsuarios.getById(idUsuario);
-			if(usuarioEntidad != null) {
-				usuario = convertirEntidadToModelo(usuarioEntidad);
-			}
+			usuario = repositorioUsuarios.getById(idUsuario);
 		} catch (Exception e) {
 			usuario = new Usuario(idUsuario);
-			usuarioEntidad = convertirModeloToEntidad(usuario);
-			repositorioUsuarios.add(usuarioEntidad);
+			repositorioUsuarios.add(usuario);
 		}	
 		
 		Reserva reserva = usuario.reservaActiva();
-		
-		// Comprobar que haya una reserva activa
 		if(reserva != null) {
 			String idBicicleta = reserva.getIdBicicleta();
 			Alquiler alquiler = new Alquiler(idBicicleta, LocalDateTime.now());
 			usuario.addAlquiler(alquiler);
 			usuario.removeReserva(reserva);
-			usuarioEntidad = convertirModeloToEntidad(usuario);
-			repositorioUsuarios.update(usuarioEntidad);
+			repositorioUsuarios.update(usuario);
 		}
 	}
 
@@ -102,25 +79,17 @@ public class ServicioAlquileres implements IServicioAlquileres{
 			throw new IllegalArgumentException("idBicicleta: no debe ser nulo ni vacio");
 		
 		Usuario usuario = null;
-		UsuarioEntidad usuarioEntidad = null;
 		Alquiler alquiler = null;
 		try {
-			usuarioEntidad = repositorioUsuarios.getById(idUsuario);
-			if(usuarioEntidad != null) {
-				usuario = convertirEntidadToModelo(usuarioEntidad);
-			}
+			usuario = repositorioUsuarios.getById(idUsuario);
 		} catch (Exception e) {
 			usuario = new Usuario(idUsuario);
-			usuarioEntidad = convertirModeloToEntidad(usuario);
-			repositorioUsuarios.add(usuarioEntidad);
+			repositorioUsuarios.add(usuario);
 		}	
-		
-		// Comprobar que no haya reserva o alquiler activo, que el usuario no este bloqueado ni se supere el tiempo limite
 		if(usuario.reservaActiva() == null && usuario.alquilerActivo() == null && !usuario.bloqueado() && !usuario.superaTiempo()) {
 			alquiler = new Alquiler(idBicicleta, LocalDateTime.now());
 			usuario.addAlquiler(alquiler);
-			usuarioEntidad = convertirModeloToEntidad(usuario);
-			repositorioUsuarios.update(usuarioEntidad);
+			repositorioUsuarios.update(usuario);
 		}
 	}
 
@@ -132,18 +101,13 @@ public class ServicioAlquileres implements IServicioAlquileres{
 			throw new IllegalArgumentException("idUsuario: no debe ser nulo ni vacio");
 		
 		Usuario usuario = null;
-		UsuarioEntidad usuarioEntidad = null;
 		try {
-			usuarioEntidad = repositorioUsuarios.getById(idUsuario);
-			if(usuarioEntidad != null) {
-				usuario = convertirEntidadToModelo(usuarioEntidad);
-			}
+			usuario = repositorioUsuarios.getById(idUsuario);
 		} catch (Exception e) {
 			usuario = new Usuario(idUsuario);
-			usuarioEntidad = convertirModeloToEntidad(usuario);
-			repositorioUsuarios.add(usuarioEntidad);
+			repositorioUsuarios.add(usuario);
 		}	
-		return convertirEntidadToModelo(repositorioUsuarios.getById(usuarioEntidad.getId()));
+		return repositorioUsuarios.getById(idUsuario);
 	}
 
 	@Override
@@ -156,14 +120,11 @@ public class ServicioAlquileres implements IServicioAlquileres{
 		if (idEstacion == null || idEstacion.isEmpty())
 			throw new IllegalArgumentException("idBicicleta: no debe ser nulo ni vacio");
 		
-		UsuarioEntidad usuarioEntidad = repositorioUsuarios.getById(idUsuario);
-		Usuario usuario = convertirEntidadToModelo(usuarioEntidad);
-		
-		// Comprobar que haya un alquiler activo
-		if(usuario.alquilerActivo() != null /* && servicio.hasHuecoDisponible() */) {
+		Usuario usuario = repositorioUsuarios.getById(idUsuario);
+		if(usuario.alquilerActivo() != null && servicioEstaciones.hasHuecoDisponible(idEstacion)) {
 			usuario.alquilerActivo().setFin(LocalDateTime.now());
-			//servicio.situarBicicleta();
-			repositorioUsuarios.update(usuarioEntidad);
+			servicioEstaciones.situarBicicleta(idEstacion);
+			repositorioUsuarios.update(usuario);
 		}
 	}
 
@@ -175,16 +136,11 @@ public class ServicioAlquileres implements IServicioAlquileres{
 			throw new IllegalArgumentException("idUsuario: no debe ser nulo ni vacio");
 				
 		Usuario usuario = null;
-		UsuarioEntidad usuarioEntidad = null;
 		try {
-			usuarioEntidad = repositorioUsuarios.getById(idUsuario);
-			if(usuarioEntidad != null) {
-				usuario = convertirEntidadToModelo(usuarioEntidad);
-			}
+			usuario = repositorioUsuarios.getById(idUsuario);
 		} catch (Exception e) {
 			usuario = new Usuario(idUsuario);
-			usuarioEntidad = convertirModeloToEntidad(usuario);
-			repositorioUsuarios.add(usuarioEntidad);
+			repositorioUsuarios.add(usuario);
 		}
 		
 		Iterator<Reserva> iterator = usuario.getReservas().iterator();
@@ -194,79 +150,18 @@ public class ServicioAlquileres implements IServicioAlquileres{
 		        iterator.remove();
 		    }
 		}
-		usuarioEntidad = convertirModeloToEntidad(usuario);
-		repositorioUsuarios.update(usuarioEntidad);
+		
+		repositorioUsuarios.update(usuario);
 	}
 	
 	//Funcion para las pruebas de bloquado
 	public void setTiempos(String idUsuario) throws RepositorioException, EntidadNoEncontrada {
-		UsuarioEntidad usuarioEntidad = repositorioUsuarios.getById(idUsuario);
-		Usuario usuario = convertirEntidadToModelo(usuarioEntidad);
+		Usuario usuario = repositorioUsuarios.getById(idUsuario);
 		
 		for(Reserva r : usuario.getReservas())
 			r.setCaducidad(LocalDateTime.now().minusDays(1));
 		
-		usuarioEntidad = convertirModeloToEntidad(usuario);
-		repositorioUsuarios.update(usuarioEntidad);
-	}
-	
-	
-	public static UsuarioEntidad  convertirModeloToEntidad (Usuario usuario) {
-		List<ReservaEntidad> reservas = new ArrayList<ReservaEntidad>();
-        List<AlquilerEntidad> alquileres = new ArrayList<AlquilerEntidad>();
-
-        for(Reserva r : usuario.getReservas()) {
-            ReservaEntidad reserva = new ReservaEntidad();
-            reserva.setId(String.valueOf(ID));
-            ID++;
-            reserva.setIdBicicleta(r.getIdBicicleta());
-            reserva.setFechaCreacion(r.getCreada().toString());
-            reserva.setFechaCaducidad(r.getCaducidad().toString());
-            reservas.add(reserva);
-        }
-
-        for(Alquiler a : usuario.getAlquileres()) {
-            AlquilerEntidad alquiler = new AlquilerEntidad();
-            alquiler.setId(String.valueOf(ID));
-            ID++;
-            alquiler.setIdBicicleta(a.getIdBicicleta());
-            alquiler.setFechaInicio(a.getInicio().toString());
-            if(a.getFin() == null)
-                alquiler.setFechaFin(null);
-            else
-                alquiler.setFechaFin(a.getFin().toString());
-            alquileres.add(alquiler);
-        }
-        
-        return new UsuarioEntidad(usuario.getId(), reservas, alquileres);
-	}
-	
-	public static Usuario convertirEntidadToModelo(UsuarioEntidad usuarioEntidad) {
-
-	    List<Reserva> reservas = new ArrayList<>();
-	    List<Alquiler> alquileres = new ArrayList<>();
-
-	    for (ReservaEntidad r : usuarioEntidad.getReservas()) {
-	        Reserva reserva = new Reserva();
-	        reserva.setIdBicicleta(r.getIdBicicleta());
-	        reserva.setCreada(LocalDateTime.parse(r.getFechaCreacion()));
-	        reserva.setCaducidad(LocalDateTime.parse(r.getFechaCaducidad()));
-	        reservas.add(reserva);
-	    }
-
-	    for (AlquilerEntidad a : usuarioEntidad.getAlquileres()) {
-	        Alquiler alquiler = new Alquiler();
-	        alquiler.setIdBicicleta(a.getIdBicicleta());
-	        alquiler.setInicio(LocalDateTime.parse(a.getFechaInicio()));
-	        if (a.getFechaFin() == null) {
-	            alquiler.setFin(null);
-	        } else {
-	            alquiler.setFin(LocalDateTime.parse(a.getFechaFin()));
-	        }
-	        alquileres.add(alquiler);
-	    }
-
-	    return new Usuario(usuarioEntidad.getId(), reservas, alquileres);
+		repositorioUsuarios.update(usuario);
 	}
 	
 }
