@@ -4,10 +4,9 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import estaciones.modelo.Estacion;
+import estaciones.modelo.Bicicleta;
 
 @NoRepositoryBean
-public interface RepositorioEstaciones
-	extends PagingAndSortingRepository<Estacion, Integer> {
+public interface RepositorioBicicletas
+	extends PagingAndSortingRepository<Bicicleta, Integer> {
 }
-

@@ -1,4 +1,4 @@
-package modelo;
+package estaciones.modelo;
 
 import java.time.LocalDate;
 
@@ -7,16 +7,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import repositorios.Identificable;
 
 @Entity
 @Table(name="bicicleta")
-public class Bicicleta implements Identificable{
+public class Bicicleta{
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private String id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
 	@Column(name="nombre")
     private String modelo;
     @Column(name = "fecha_alta", columnDefinition = "DATE")
@@ -25,14 +25,15 @@ public class Bicicleta implements Identificable{
     private LocalDate fechaBaja = null;
     @Column(name="motivo_baja")
     private String motivoBaja = null;
-    @Column(name="estacion")
-    private String estacion;
-    @Column(name="historico")
-    private String historico = null;
+    
+    @ManyToOne
+    @JoinColumn(name = "estacion_id")
+    private Estacion estacion;
+    @Column(name = "disponible")
     private boolean isDisponible = true;
 
 
-	public Bicicleta(String modelo, LocalDate fechaAlta, String estacion) {
+	public Bicicleta(String modelo, LocalDate fechaAlta, Estacion estacion) {
 		super();
 		this.modelo = modelo;
 		this.fechaAlta = fechaAlta;
@@ -44,11 +45,11 @@ public class Bicicleta implements Identificable{
 
 	}
 	
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -84,26 +85,17 @@ public class Bicicleta implements Identificable{
 		this.motivoBaja = motivoBaja;
 	}
 	
-	public String getEstacion() {
+	public Estacion getEstacion() {
 		return estacion;
 	}
 
-	public void setEstacion(String estacion) {
+	public void setEstacion(Estacion estacion) {
 		this.estacion = estacion;
-	}
-	
-	public String getHistorico() {
-		return historico;
-	}
-
-	public void setHistorico(String historico) {
-		this.historico = historico;
 	}
 	
 	public boolean isDisponible() {
 		return isDisponible;
 	}
-
 
 	public void setDisponible(boolean isDisponible) {
 		this.isDisponible = isDisponible;
