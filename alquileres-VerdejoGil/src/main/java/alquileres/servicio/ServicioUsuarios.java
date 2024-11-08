@@ -18,8 +18,7 @@ public class ServicioUsuarios implements IServicioUsuarios{
 			claims.put("roles", "gestor");
 		}
 		else {
-			claims.put("sub", username);
-			claims.put("roles", "");
+			return null;
 		}
 		return claims;
 	}

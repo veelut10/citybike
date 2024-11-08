@@ -8,7 +8,7 @@ public class ServicioEstaciones implements IServicioEstaciones{
 	}
 	
 	@Override
-	public boolean situarBicicleta(String idEstacion) {
+	public boolean situarBicicleta(String idBicicleta, String idEstacion) {
 		return true;
 	}
 }

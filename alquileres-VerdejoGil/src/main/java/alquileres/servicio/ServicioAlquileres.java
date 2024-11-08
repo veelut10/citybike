@@ -6,17 +6,17 @@ import java.util.Iterator;
 import alquileres.modelo.Alquiler;
 import alquileres.modelo.Reserva;
 import alquileres.modelo.Usuario;
+import alquileres.repositorio.RepositorioUsuario;
 import repositorio.EntidadNoEncontrada;
 import repositorio.FactoriaRepositorios;
-import repositorio.Repositorio;
 import repositorio.RepositorioException;
 import servicio.FactoriaServicios;
 
 public class ServicioAlquileres implements IServicioAlquileres{
 	
-	private Repositorio<Usuario, String> repositorioUsuarios = FactoriaRepositorios.getRepositorio(Usuario.class);
+	private RepositorioUsuario repositorioUsuarios = FactoriaRepositorios.getRepositorio(Usuario.class);
 	
-	IServicioEstaciones servicioEstaciones = FactoriaServicios.getServicio(IServicioEstaciones.class);
+	private IServicioEstaciones servicioEstaciones = FactoriaServicios.getServicio(IServicioEstaciones.class);
 	
 	@Override
 	public void reservar(String idUsuario, String idBicicleta) throws RepositorioException, EntidadNoEncontrada {
@@ -79,7 +79,6 @@ public class ServicioAlquileres implements IServicioAlquileres{
 			throw new IllegalArgumentException("idBicicleta: no debe ser nulo ni vacio");
 		
 		Usuario usuario = null;
-		Alquiler alquiler = null;
 		try {
 			usuario = repositorioUsuarios.getById(idUsuario);
 		} catch (Exception e) {
@@ -87,7 +86,7 @@ public class ServicioAlquileres implements IServicioAlquileres{
 			repositorioUsuarios.add(usuario);
 		}	
 		if(usuario.reservaActiva() == null && usuario.alquilerActivo() == null && !usuario.bloqueado() && !usuario.superaTiempo()) {
-			alquiler = new Alquiler(idBicicleta, LocalDateTime.now());
+			Alquiler alquiler = new Alquiler(idBicicleta, LocalDateTime.now());
 			usuario.addAlquiler(alquiler);
 			repositorioUsuarios.update(usuario);
 		}
@@ -123,7 +122,8 @@ public class ServicioAlquileres implements IServicioAlquileres{
 		Usuario usuario = repositorioUsuarios.getById(idUsuario);
 		if(usuario.alquilerActivo() != null && servicioEstaciones.hasHuecoDisponible(idEstacion)) {
 			usuario.alquilerActivo().setFin(LocalDateTime.now());
-			servicioEstaciones.situarBicicleta(idEstacion);
+			String idBicicleta = usuario.alquilerActivo().getIdBicicleta();
+			servicioEstaciones.situarBicicleta(idBicicleta, idEstacion);
 			repositorioUsuarios.update(usuario);
 		}
 	}

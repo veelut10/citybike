@@ -8,6 +8,6 @@ import estaciones.modelo.Bicicleta;
 @Repository
 public interface RepositorioBicicletasJPA
 	extends RepositorioBicicletas,
-			JpaRepository<Bicicleta, Integer>{
+			JpaRepository<Bicicleta, String>{
 
 }

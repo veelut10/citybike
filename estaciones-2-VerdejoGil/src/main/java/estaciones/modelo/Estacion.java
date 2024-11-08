@@ -2,25 +2,27 @@ package estaciones.modelo;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import javax.annotation.Generated;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
+@Table(name="estacion")
 public class Estacion{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
+	private String id;
 	@Column(name="nombre")
 	private String nombre;
 	@Column(name = "fecha_alta", columnDefinition = "DATE")
@@ -34,29 +36,30 @@ public class Estacion{
 	@Column(name="latitud")
     private double latitud;
     
-    @OneToMany(mappedBy = "estacion")
+	@OneToMany(cascade=CascadeType.ALL,
+			   fetch = FetchType.EAGER)
     private List<Bicicleta> bicicletas = new ArrayList<Bicicleta>();
 
-	public Estacion(String nombre, int numPuestos, String direccion, double longitud, double latitud, LocalDate fechaAlta) {
+	public Estacion(String nombre, int numPuestos, String direccion, double longitud, double latitud) {
 		super();
 		this.nombre = nombre;
 		this.numPuestos = numPuestos;
 		this.direccion = direccion;
 		this.longitud = longitud;
 		this.latitud = latitud;
-		this.fechaAlta = fechaAlta;
+		this.fechaAlta = LocalDate.now();
 	}
 	
 	public Estacion() {
 
 	}
 
-	public Integer getId() {
+	public String getId() {
 		// TODO Auto-generated method stub
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 		
 	}

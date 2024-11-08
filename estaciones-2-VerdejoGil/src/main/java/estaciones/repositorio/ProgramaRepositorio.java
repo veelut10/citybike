@@ -2,22 +2,35 @@ package estaciones.repositorio;
 
 import java.time.LocalDate;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import estaciones.EstacionesApp;
 import estaciones.modelo.Estacion;
+import estaciones.servicio.IServicioEstaciones;
+import repositorio.EntidadNoEncontrada;
+import repositorio.RepositorioException;
 
 public class ProgramaRepositorio {
-	public static void main(String[] args) {
-		ConfigurableApplicationContext contexto =
-				SpringApplication.run(EstacionesApp.class, args);
+	
+	public static void main(String[] args) throws RepositorioException, EntidadNoEncontrada {
 		
-		RepositorioEstaciones repositorio = contexto.getBean(RepositorioEstaciones.class);
+		ConfigurableApplicationContext contexto = SpringApplication.run(EstacionesApp.class, args);
 		
-		Estacion e = new Estacion("a", 0, "CALEE", 0, 0, LocalDate.now());
+		IServicioEstaciones servicio = contexto.getBean(IServicioEstaciones.class);
 		
-		repositorio.save(e);
+		String estacionId = servicio.altaEstacion("a", 120, "CALEE", 0, 0);
+		
+		servicio.altaBicicleta("a", estacionId);
+		
+		servicio.altaBicicleta("b", estacionId);
+		
+		servicio.altaBicicleta("c", estacionId);
+		
+		servicio.altaBicicleta("d", estacionId);
+		
+		System.out.println("ALKFJKASFJLASFj");
 		
 		contexto.close();
 	}

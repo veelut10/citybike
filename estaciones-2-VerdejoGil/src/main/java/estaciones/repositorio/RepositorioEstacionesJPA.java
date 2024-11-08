@@ -8,6 +8,6 @@ import estaciones.modelo.Estacion;
 @Repository
 public interface RepositorioEstacionesJPA 
 	extends RepositorioEstaciones,
-			JpaRepository<Estacion, Integer>{
+			JpaRepository<Estacion, String>{
 
 }

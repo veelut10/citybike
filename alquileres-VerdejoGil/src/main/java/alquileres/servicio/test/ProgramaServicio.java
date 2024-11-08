@@ -8,11 +8,11 @@ import servicio.FactoriaServicios;
 
 public class ProgramaServicio {
 	public static void main(String[] args) throws RepositorioException, EntidadNoEncontrada {
-		IServicioAlquileres servicioAlquileres;
-		servicioAlquileres = FactoriaServicios.getServicio(IServicioAlquileres.class);
+
+		IServicioAlquileres servicioAlquileres = FactoriaServicios.getServicio(IServicioAlquileres.class);
 		
 		Usuario usuario = null;
-		String idUsuario = "1023";
+		String idUsuario = "1";
 		String idUsuario2 = "2";
 		String idUsuario3 = "3";
 		String idBici = "1";

@@ -41,7 +41,7 @@ public class ControladorAuth {
 
 			return Response.ok(token).build();
 		} else {
-			return Response.status(Response.Status.UNAUTHORIZED).entity("Credenciales inválidas").build();
+			return Response.status(Response.Status.UNAUTHORIZED).entity("Credenciales inválidas, username debe ser usuario o gestor").build();
 		}
 	}
 }

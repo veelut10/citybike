@@ -5,18 +5,20 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table(name="bicicleta")
 public class Bicicleta{
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
+	private String id;
 	@Column(name="nombre")
     private String modelo;
     @Column(name = "fecha_alta", columnDefinition = "DATE")
@@ -27,7 +29,7 @@ public class Bicicleta{
     private String motivoBaja = null;
     
     @ManyToOne
-    @JoinColumn(name = "estacion_id")
+    @JoinColumn(name = "estacion")
     private Estacion estacion;
     @Column(name = "disponible")
     private boolean isDisponible = true;
@@ -45,11 +47,11 @@ public class Bicicleta{
 
 	}
 	
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -99,5 +101,12 @@ public class Bicicleta{
 
 	public void setDisponible(boolean isDisponible) {
 		this.isDisponible = isDisponible;
+	}
+	
+	public void darBaja(String motivoBaja) {
+		this.setMotivoBaja(motivoBaja);
+        this.setFechaBaja(LocalDate.now());
+        this.setEstacion(null);
+        this.setDisponible(false);
 	}
 }

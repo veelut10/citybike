@@ -1,30 +1,31 @@
 package estaciones.servicio;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import estaciones.modelo.Bicicleta;
 import estaciones.modelo.Estacion;
+import estaciones.modelo.EstacionResumen;
 import repositorio.RepositorioException;
 import repositorio.EntidadNoEncontrada;
 
 public interface IServicioEstaciones {
 
-	Integer altaEstacion(String nombre, int numPuestos, String direccion, double longitud, double latitud) throws RepositorioException;
+	String altaEstacion(String nombre, int numPuestos, String direccion, double longitud, double latitud) throws RepositorioException;
 	
-	Integer altaBicicleta(String modeloBicicleta, Integer idEstacion) throws RepositorioException, EntidadNoEncontrada;
+	String altaBicicleta(String modeloBicicleta, String idEstacion) throws RepositorioException, EntidadNoEncontrada;
 	
-	void bajaBicicleta(Integer idBicicleta, String motivoBaja) throws RepositorioException, EntidadNoEncontrada;
+	void bajaBicicleta(String idBicicleta, String motivoBaja) throws RepositorioException, EntidadNoEncontrada;
 	
-	List<Bicicleta> getListadoBicicletasEnEstacion(Integer idEstacion) throws RepositorioException, EntidadNoEncontrada;
+	Page<Bicicleta>  getListadoBicicletasEnEstacion(Pageable pageable, String idEstacion) throws RepositorioException, EntidadNoEncontrada;
 	
 	Page<Estacion> getListadoEstaciones(Pageable pageable) throws RepositorioException, EntidadNoEncontrada;
 	
-	Estacion getEstacion(Integer idEstacion) throws RepositorioException, EntidadNoEncontrada;
+	Estacion getEstacion(String idEstacion) throws RepositorioException, EntidadNoEncontrada;
 	
-	List<Bicicleta> getListadoBicicletasDisponiblesEnEstacion(Integer idEstacion) throws RepositorioException, EntidadNoEncontrada;
+	Page<Bicicleta> getListadoBicicletasDisponiblesEnEstacion(Pageable pageable, String idEstacion) throws RepositorioException, EntidadNoEncontrada;
 	
-	void estacionarBicicleta(Integer idBicicleta, Integer idEstacion) throws RepositorioException, EntidadNoEncontrada;
+	void estacionarBicicleta(String idBicicleta, String idEstacion) throws RepositorioException, EntidadNoEncontrada;
+	
+	void aux() throws RepositorioException, EntidadNoEncontrada;
 }

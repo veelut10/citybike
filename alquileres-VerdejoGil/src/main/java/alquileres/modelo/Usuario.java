@@ -1,6 +1,7 @@
 package alquileres.modelo;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,8 +70,8 @@ public class Usuario implements Identificable{
 		LocalDate hoy = LocalDate.now();
 
 		for(Alquiler a : alquileres) {
-			//Compara la fecha de alquiler con hoy
-			if(a.getInicio().toLocalDate().equals(hoy))
+			//Compara la fecha de alquiler con hoy y comprueba que el alquiler ya se haya iniciado
+			if(a.getInicio().toLocalDate().equals(hoy) && a.getInicio().isBefore(LocalDateTime.now()))
 				tiempoUso += a.getTiempo();
 		}
 		return tiempoUso;
