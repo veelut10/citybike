@@ -47,6 +47,7 @@ public class JwtTokenFilter implements ContainerRequestFilter {
 		} else {
 			String token = authorization.substring("Bearer ".length()).trim();
 			try {
+				//Obtener claims del token
 				Claims claims = Jwts.parser().setSigningKey("secreto").parseClaimsJws(token).getBody();
 				this.servletRequest.setAttribute("claims", claims);
 

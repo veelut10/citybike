@@ -1,8 +1,6 @@
 package estaciones.servicio;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +10,8 @@ import org.springframework.stereotype.Service;
 
 import estaciones.modelo.Bicicleta;
 import estaciones.modelo.Estacion;
-import estaciones.modelo.EstacionResumen;
 import estaciones.repositorio.RepositorioBicicletas;
 import estaciones.repositorio.RepositorioEstaciones;
-import estaciones.rest.modelo.BicicletaDTO;
-import estaciones.rest.modelo.EstacionDTO;
 import repositorio.EntidadNoEncontrada;
 import repositorio.RepositorioException;
 
@@ -36,29 +31,26 @@ public class ServicioEstaciones implements IServicioEstaciones{
 	
 	@Override
 	public String altaEstacion (String nombre, int numPuestos, String direccion, double longitud, double latitud) throws RepositorioException{
-		// Control de integridad de los datos
+		if (nombre == null || nombre.isEmpty())
+			throw new IllegalArgumentException("nombre: no debe ser nulo ni vacio");
 		
-			if (nombre == null || nombre.isEmpty())
-				throw new IllegalArgumentException("nombre: no debe ser nulo ni vacio");
+		if (numPuestos <= 0)
+			throw new IllegalArgumentException("numero puestos: no puede ser 0 o menos ni nulo");
 			
-			if (numPuestos <= 0)
-				throw new IllegalArgumentException("numero puestos: no puede ser 0 o menos ni nulo");
+		if (direccion == null || direccion.isEmpty())
+			throw new IllegalArgumentException("direccion: no debe ser nula ni vacia");
 			
-			if (direccion == null || direccion.isEmpty())
-				throw new IllegalArgumentException("direccion: no debe ser nula ni vacia");
+		if (longitud < -180 || longitud > 180)
+			throw new IllegalArgumentException("longitud: no debe ser menor que -180 ni mayor que 180");
 			
-			if (longitud < -180 || longitud > 180)
-				throw new IllegalArgumentException("longitud: no debe ser menor que -180 ni mayor que 180");
-			
-			if (latitud < -90 || latitud > 90)
-				throw new IllegalArgumentException("latitud: no debe ser menor que -90 ni mayor que 90");
+		if (latitud < -90 || latitud > 90)
+			throw new IllegalArgumentException("latitud: no debe ser menor que -90 ni mayor que 90");
 			
 		Estacion estacion = new Estacion(nombre, numPuestos, direccion, longitud, latitud);
 		String idEstacion = repositorioEstaciones.save(estacion).getId();
 		return idEstacion;
 	}
 	
-	// Métodos a implementar
     @Override
     public String altaBicicleta(String modeloBicicleta, String idEstacion) throws RepositorioException, EntidadNoEncontrada {
     	if (modeloBicicleta == null || modeloBicicleta.isEmpty())
@@ -148,8 +140,14 @@ public class ServicioEstaciones implements IServicioEstaciones{
 	
 	@Override
 	public Estacion getEstacion(String idEstacion) throws RepositorioException, EntidadNoEncontrada {
-			Estacion estacion = repositorioEstaciones.findById(idEstacion).get();
+		Optional<Estacion> e = repositorioEstaciones.findById(idEstacion);
+		
+		if(e.isPresent()) {
+			Estacion estacion = e.get();
 			return estacion;
+		}
+		else
+    		throw new EntidadNoEncontrada("Estacion no encontrada con id: " + idEstacion);
 	}
 
 	@Override
@@ -182,6 +180,12 @@ public class ServicioEstaciones implements IServicioEstaciones{
     		Bicicleta bicicleta = (Bicicleta) b.get();
     		
     		if(estacion.hasHueco()) {
+    			// Si la bicicleta estaba en una estación, también actualizar esa
+                if (bicicleta.getEstacion() != null) {
+                    Estacion estacionAntigua = repositorioEstaciones.findById(bicicleta.getEstacion().getId()).get();
+                    estacionAntigua.removeBici(bicicleta);
+                    repositorioEstaciones.save(estacionAntigua);
+                }
     			estacion.addBici(bicicleta);
     			bicicleta.setEstacion(estacion);
     			repositorioEstaciones.save(estacion);
@@ -191,49 +195,16 @@ public class ServicioEstaciones implements IServicioEstaciones{
     	else
     		throw new EntidadNoEncontrada("Estacion o Bicicleta no encontrada con id: " + idEstacion + " o " + idBicicleta);
     }
-    
-    private EstacionDTO fromEstacionToDTO(Estacion estacion) {
-    	EstacionDTO estacionDTO = new EstacionDTO();
-		estacionDTO.setId(estacion.getId());
-		estacionDTO.setNombre(estacion.getNombre());
-		estacionDTO.setFechaAlta(estacion.getFechaAlta());
-		estacionDTO.setNumPuestos(estacion.getNumPuestos());
-		estacionDTO.setDireccion(estacion.getDireccion());
-		estacionDTO.setLongitud(estacion.getLongitud());
-		estacionDTO.setLatitud(estacion.getLatitud());
+
+	@Override
+	public Bicicleta getBicicleta(String idBicicleta) throws RepositorioException, EntidadNoEncontrada {
+		Optional<Bicicleta> b = repositorioBicicletas.findById(idBicicleta);
 		
-		List<String> idBicicletas = new ArrayList<String>();
-		for(Bicicleta b : estacion.getBicicletas()) 
-			idBicicletas.add(b.getId());
-		
-		estacionDTO.setIdBicicletas(idBicicletas);
-		return estacionDTO;
-    }
-    
-    private BicicletaDTO fromBicicletaToDTO(Bicicleta bicicleta) {
-    	BicicletaDTO bicicletaDTO = new BicicletaDTO();
-    	bicicletaDTO.setId(bicicleta.getId());
-    	bicicletaDTO.setModelo(bicicleta.getModelo());
-    	bicicletaDTO.setFechaAlta(bicicleta.getFechaAlta());
-    	bicicletaDTO.setFechaBaja(bicicleta.getFechaBaja());
-    	bicicletaDTO.setMotivoBaja(bicicleta.getMotivoBaja());
-    	bicicletaDTO.setIdEstacion(bicicleta.getEstacion().getId());
-    	bicicletaDTO.setDisponible(bicicleta.isDisponible());
-    	return bicicletaDTO;
-    }
-    public void aux() throws RepositorioException, EntidadNoEncontrada {
-    	
-    	Estacion e = new Estacion("a", 10, "CALEE", 0, 0);
-		
-    	String a = repositorioEstaciones.save(e).getId();
-		
-		
-		altaBicicleta("a", a);
-		
-		altaBicicleta("b", a);
-		
-		altaBicicleta("c", a);
-		
-		altaBicicleta("d", a);
-    }
+		if(b.isPresent()) {
+			Bicicleta bicicleta = b.get();
+			return bicicleta;
+		}
+		else
+    		throw new EntidadNoEncontrada("Bicicleta no encontrada con id: " + idBicicleta);	
+	}
 }

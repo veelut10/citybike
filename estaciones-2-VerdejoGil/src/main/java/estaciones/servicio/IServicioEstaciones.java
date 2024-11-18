@@ -5,7 +5,6 @@ import org.springframework.data.domain.Pageable;
 
 import estaciones.modelo.Bicicleta;
 import estaciones.modelo.Estacion;
-import estaciones.modelo.EstacionResumen;
 import repositorio.RepositorioException;
 import repositorio.EntidadNoEncontrada;
 
@@ -27,5 +26,5 @@ public interface IServicioEstaciones {
 	
 	void estacionarBicicleta(String idBicicleta, String idEstacion) throws RepositorioException, EntidadNoEncontrada;
 	
-	void aux() throws RepositorioException, EntidadNoEncontrada;
+	Bicicleta getBicicleta(String idBicicleta) throws RepositorioException, EntidadNoEncontrada;
 }

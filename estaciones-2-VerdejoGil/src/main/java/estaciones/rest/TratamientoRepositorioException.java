@@ -1,21 +1,19 @@
 package estaciones.rest;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import repositorio.EntidadNoEncontrada;
+import repositorio.RepositorioException;
 
-@ControllerAdvice
-public class TratamientoEntidadNoEncontradaException{
+public class TratamientoRepositorioException {
 	
-	@ExceptionHandler(EntidadNoEncontrada.class)
+	@ExceptionHandler(RepositorioException.class)
 	@ResponseBody
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public RespuestaError handleGlobalException(EntidadNoEncontrada ex) {
-		return new RespuestaError("Not Found", ex.getMessage());
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public RespuestaError handleGlobalException(RepositorioException ex) {
+		return new RespuestaError("Internal Server Error", ex.getMessage());
 	}
 	
 	private static class RespuestaError {
