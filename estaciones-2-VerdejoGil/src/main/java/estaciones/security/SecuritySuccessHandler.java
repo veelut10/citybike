@@ -18,7 +18,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 
-
+//Clase que recibe los datos de github de la autenticacion y crea el token
 @Component
 public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
 	
@@ -50,6 +50,8 @@ public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
 		
 		Map<String, Object> claims = new HashMap<String, Object>();
 		claims.put("sub", usuario.getAttribute("login"));
+		
+		//Modificar para probar los roles del usuario
 		claims.put("roles", "gestor");
 		
 		return claims;

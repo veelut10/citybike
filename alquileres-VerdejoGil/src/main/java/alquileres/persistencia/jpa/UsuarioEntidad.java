@@ -3,6 +3,7 @@ package alquileres.persistencia.jpa;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -12,17 +13,15 @@ import repositorio.Identificable;
 
 @Entity
 @Table(name="usuario")
-public class UsuarioEntidad implements Identificable,Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class UsuarioEntidad implements Identificable {
 
 	@Id
     private String id;
 
-    @OneToMany	
+    @OneToMany(cascade = CascadeType.ALL)	
     private List<ReservaEntidad> reservas;
 
-    @OneToMany    
+    @OneToMany(cascade = CascadeType.ALL)    
     private List<AlquilerEntidad> alquileres;
 
     public UsuarioEntidad() {

@@ -2,6 +2,7 @@ package estaciones.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -23,7 +24,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable()
 				.httpBasic().disable()
 				.authorizeRequests()
-				.antMatchers("/publico/**")
+				//Permitir a todos sin necesidad de token obtener una Estacion
+				.antMatchers(HttpMethod.GET, "/estaciones/{idEstacion}")
+				.permitAll()
+				//Permitir a todos sin necesidad de token estacionar Bicicleta en Estacion
+				.antMatchers(HttpMethod.POST, "/estaciones/{idEstacion}/bicicletas/{idBicicleta}")
 				.permitAll()
 				.antMatchers("/estaciones/**")
 				.authenticated()

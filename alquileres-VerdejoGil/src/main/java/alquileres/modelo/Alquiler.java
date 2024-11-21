@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class Alquiler {
+	private String id;
 	private String idBicicleta;
 	private LocalDateTime inicio;
 	private LocalDateTime fin;
@@ -14,6 +15,14 @@ public class Alquiler {
 	}
 
 	public Alquiler() {
+	}
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getIdBicicleta() {
@@ -54,5 +63,10 @@ public class Alquiler {
 			return ChronoUnit.MINUTES.between(inicio, LocalDateTime.now());
 		else
 			return ChronoUnit.MINUTES.between(inicio, fin);
+	}
+
+	@Override
+	public String toString() {
+		return "Alquiler [id=" + id + ", idBicicleta=" + idBicicleta + ", inicio=" + inicio + ", fin=" + fin + "]";
 	}
 }

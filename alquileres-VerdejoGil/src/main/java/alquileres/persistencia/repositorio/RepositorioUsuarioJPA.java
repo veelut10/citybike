@@ -151,6 +151,7 @@ public class RepositorioUsuarioJPA implements RepositorioUsuario{
 
         for(Reserva r : usuario.getReservas()) {
             ReservaEntidad reservaEntidad = new ReservaEntidad();
+            reservaEntidad.setId(r.getId());
             reservaEntidad.setIdBicicleta(r.getIdBicicleta());
             reservaEntidad.setFechaCreacion(r.getCreada().toString());
             reservaEntidad.setFechaCaducidad(r.getCaducidad().toString());
@@ -159,12 +160,14 @@ public class RepositorioUsuarioJPA implements RepositorioUsuario{
 
         for(Alquiler a : usuario.getAlquileres()) {
             AlquilerEntidad alquilerEntidad = new AlquilerEntidad();
+            alquilerEntidad.setId(a.getId());
             alquilerEntidad.setIdBicicleta(a.getIdBicicleta());
             alquilerEntidad.setFechaInicio(a.getInicio().toString());
             if(a.getFin() == null)
                 alquilerEntidad.setFechaFin(null);
             else
                 alquilerEntidad.setFechaFin(a.getFin().toString());
+            System.out.println(alquilerEntidad.getFechaFin());
             alquileres.add(alquilerEntidad);
         }
         
@@ -178,6 +181,7 @@ public class RepositorioUsuarioJPA implements RepositorioUsuario{
 
 	    for (ReservaEntidad r : usuarioEntidad.getReservas()) {
 	        Reserva reserva = new Reserva();
+	        reserva.setId(r.getId());
 	        reserva.setIdBicicleta(r.getIdBicicleta());
 	        reserva.setCreada(LocalDateTime.parse(r.getFechaCreacion()));
 	        reserva.setCaducidad(LocalDateTime.parse(r.getFechaCaducidad()));
@@ -186,6 +190,7 @@ public class RepositorioUsuarioJPA implements RepositorioUsuario{
 
 	    for (AlquilerEntidad a : usuarioEntidad.getAlquileres()) {
 	        Alquiler alquiler = new Alquiler();
+	        alquiler.setId(a.getId());;
 	        alquiler.setIdBicicleta(a.getIdBicicleta());
 	        alquiler.setInicio(LocalDateTime.parse(a.getFechaInicio()));
 	        if (a.getFechaFin() == null) {

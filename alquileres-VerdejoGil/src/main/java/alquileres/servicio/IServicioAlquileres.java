@@ -3,6 +3,7 @@ package alquileres.servicio;
 import alquileres.modelo.Usuario;
 import repositorio.EntidadNoEncontrada;
 import repositorio.RepositorioException;
+import retrofit.estaciones.ServicioAlquileresException;
 
 public interface IServicioAlquileres {
 	
@@ -19,7 +20,7 @@ public interface IServicioAlquileres {
     public Usuario historialUsuario(String idUsuario) throws RepositorioException, EntidadNoEncontrada;
 
     // Método para dejar una bicicleta
-    public void dejarBicicleta(String idUsuario, String idEstacion) throws RepositorioException, EntidadNoEncontrada;
+    public void dejarBicicleta(String idUsuario, String idEstacion) throws RepositorioException, EntidadNoEncontrada, ServicioAlquileresException;
 
     // Método para liberar bloqueo eliminando reservas caducadas
     public void liberarBloqueo(String idUsuario) throws RepositorioException, EntidadNoEncontrada;

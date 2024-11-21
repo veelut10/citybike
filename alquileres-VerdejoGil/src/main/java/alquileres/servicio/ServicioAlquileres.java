@@ -10,6 +10,7 @@ import alquileres.repositorio.RepositorioUsuario;
 import repositorio.EntidadNoEncontrada;
 import repositorio.FactoriaRepositorios;
 import repositorio.RepositorioException;
+import retrofit.estaciones.ServicioAlquileresException;
 import servicio.FactoriaServicios;
 
 public class ServicioAlquileres implements IServicioAlquileres{
@@ -110,7 +111,7 @@ public class ServicioAlquileres implements IServicioAlquileres{
 	}
 
 	@Override
-	public void dejarBicicleta(String idUsuario, String idEstacion) throws RepositorioException, EntidadNoEncontrada {
+	public void dejarBicicleta(String idUsuario, String idEstacion) throws RepositorioException, EntidadNoEncontrada, ServicioAlquileresException {
 		
 		// Control de integridad de los datos	
 		if (idUsuario == null || idUsuario.isEmpty())
@@ -119,11 +120,18 @@ public class ServicioAlquileres implements IServicioAlquileres{
 		if (idEstacion == null || idEstacion.isEmpty())
 			throw new IllegalArgumentException("idBicicleta: no debe ser nulo ni vacio");
 		
-		Usuario usuario = repositorioUsuarios.getById(idUsuario);
+		Usuario usuario = null;
+		try {
+			usuario = repositorioUsuarios.getById(idUsuario);
+		} catch (Exception e) {
+			usuario = new Usuario(idUsuario);
+			repositorioUsuarios.add(usuario);
+		}	
+		
 		if(usuario.alquilerActivo() != null && servicioEstaciones.hasHuecoDisponible(idEstacion)) {
-			usuario.alquilerActivo().setFin(LocalDateTime.now());
 			String idBicicleta = usuario.alquilerActivo().getIdBicicleta();
 			servicioEstaciones.situarBicicleta(idBicicleta, idEstacion);
+			usuario.alquilerActivo().setFin(LocalDateTime.now());
 			repositorioUsuarios.update(usuario);
 		}
 	}

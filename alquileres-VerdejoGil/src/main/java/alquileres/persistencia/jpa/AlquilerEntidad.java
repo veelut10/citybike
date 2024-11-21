@@ -15,10 +15,7 @@ import repositorio.Identificable;
 
 @Entity
 @Table(name="alquiler")
-
-public class AlquilerEntidad implements Identificable,Serializable {
-	
-	private static final long serialVersionUID = 1L;
+public class AlquilerEntidad implements Identificable {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)

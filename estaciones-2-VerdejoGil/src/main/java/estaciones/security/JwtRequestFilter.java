@@ -19,6 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
+//Clase que recibe el token de SecuritySuccessHandler y verifica los claims
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 	

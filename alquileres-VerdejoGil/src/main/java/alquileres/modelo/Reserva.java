@@ -3,6 +3,7 @@ package alquileres.modelo;
 import java.time.LocalDateTime;
 
 public class Reserva {
+	private String id;
 	private String idBicicleta;
 	private LocalDateTime creada;
 	private LocalDateTime caducidad;
@@ -14,6 +15,14 @@ public class Reserva {
 	}
 	
 	public Reserva() {
+	}
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getIdBicicleta() {

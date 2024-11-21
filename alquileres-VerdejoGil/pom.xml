@@ -95,6 +95,26 @@
 			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- dependencias Retrofit -->
+		<dependency>
+ 			<groupId>com.squareup.retrofit2</groupId>
+  			<artifactId>retrofit</artifactId>
+  			<version>2.9.0</version>
+		</dependency>
+		
+		<!-- dependencias Conversores para Retrofit de JSON -->
+		<dependency>
+ 			<groupId>com.squareup.retrofit2</groupId>
+  			<artifactId>converter-jackson</artifactId>
+  			<version>2.9.0</version>
+		</dependency>
+		
+		<dependency>
+ 			<groupId>com.squareup.retrofit2</groupId>
+  			<artifactId>converter-gson</artifactId>
+  			<version>2.9.0</version>
+		</dependency>
   	</dependencies>
   	
   	<!-- plugin de Jersey -->

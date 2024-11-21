@@ -15,9 +15,7 @@ import repositorio.Identificable;
 
 @Entity
 @Table(name = "reserva")
-public class ReservaEntidad implements Identificable, Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class ReservaEntidad implements Identificable {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
