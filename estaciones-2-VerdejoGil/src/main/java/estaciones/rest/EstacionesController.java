@@ -41,8 +41,8 @@ import repositorio.EntidadNoEncontrada;
 import repositorio.RepositorioException;
 
 //ESPECIFICACIÓN OpenAPI E INTERFAZ Swagger UI
-//http://localhost:8080/v3/api-docs
-//http://localhost:8080/swagger-ui.html
+//http://localhost:8081/v3/api-docs
+//http://localhost:8081/swagger-ui.html
 @RestController
 @RequestMapping("/estaciones")
 @Tag(name = "Estaciones", description = "Aplicacion de estaciones")
@@ -60,7 +60,7 @@ public class EstacionesController {
 		this.servicio = servicio;
 	}
 	
-	//http://localhost:8080/estaciones + pasar JSON de una EstacionDTO en el body
+	//http://localhost:8081/estaciones + pasar JSON de una EstacionDTO en el body
 	@Operation(summary = "Dar de alta una Estacion", description ="Se usa un DTO de Estacion para crear la Estacion")
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE})
 	@PreAuthorize("hasAuthority('gestor')")
@@ -72,7 +72,7 @@ public class EstacionesController {
 
 	}
 	
-	//http://localhost:8080/estaciones/bicicletas + pasar JSON de una BicicletaDTO en el body con id de la Estacion
+	//http://localhost:8081/estaciones/bicicletas + pasar JSON de una BicicletaDTO en el body con id de la Estacion
 	@Operation(summary = "Dar de alta una Bicicleta en una Estacion", description ="Se usa un DTO de Bicicleta en el cual esta indicado el id de la Estacion")
 	@PostMapping(value = "/bicicletas", consumes = { MediaType.APPLICATION_JSON_VALUE})
 	@PreAuthorize("hasAuthority('gestor')")
@@ -84,7 +84,7 @@ public class EstacionesController {
 
 	}
 	
-	//http://localhost:8080/estaciones/bicicletas/{idBicicleta}/baja} + pasar JSON con el motivo de baja en el body
+	//http://localhost:8081/estaciones/bicicletas/{idBicicleta}/baja} + pasar JSON con el motivo de baja en el body
 	@Operation(summary = "Dar de baja una Bicicleta", description ="Se indica la Bicicleta que se quiere dar de baja mediante su id y se le pasa el Motivo de Baja por un DTO")
 	@PatchMapping(value = "/bicicletas/{idBicicleta}/baja")
 	@PreAuthorize("hasAuthority('gestor')")
@@ -95,7 +95,7 @@ public class EstacionesController {
 		return ResponseEntity.noContent().build();
 	}
 	
-	//http://localhost:8080/estaciones/{idEstacion}/bicicletas?page=0&size=2
+	//http://localhost:8081/estaciones/{idEstacion}/bicicletas?page=0&size=2
 	@Operation(summary = "Obtener el listado de Bicicletas en una Estacion", description ="Se indica la Estacion mediante su id y el numero y tamaño de pagina")
 	@GetMapping("/{idEstacion}/bicicletas")
 	@PreAuthorize("hasAuthority('gestor')")
@@ -129,7 +129,7 @@ public class EstacionesController {
     	});
 	}
 	
-	//http://localhost:8080/estaciones?page=0&size=2
+	//http://localhost:8081/estaciones?page=0&size=2
 	@Operation(summary = "Obtener el listado de Estaciones", description ="Se indica el numero y tamaño de pagina que se quiere mostrar")
 	@GetMapping
 	public PagedModel<EntityModel<EstacionDTO>> getListadoEstaciones(
@@ -156,7 +156,7 @@ public class EstacionesController {
     	});
 	}
 	
-	//http://localhost:8080/estaciones/{idEstacion}
+	//http://localhost:8081/estaciones/{idEstacion}
 	@Operation(summary = "Obtener la Estacion indicada", description ="Se indica el id de la Estacion")
 	@GetMapping("/{idEstacion}")
 	public EstacionDTO getEstacionById(@PathVariable String idEstacion) throws Exception {
@@ -165,7 +165,7 @@ public class EstacionesController {
 		return estacionDTO;
 	}
 	
-	//http://localhost:8080/estaciones/{idEstacion}/bicicletas-disponicles?page=0&size=2
+	//http://localhost:8081/estaciones/{idEstacion}/bicicletas-disponicles?page=0&size=2
 	@Operation(summary = "Obtener el listado de Bicicletas disponibles en una Estacion", description ="Se indica la Estacion mediante su id y el numero y tamaño de pagina")
 	@GetMapping("/{idEstacion}/bicicletas-disponibles")
 	public PagedModel<EntityModel<BicicletaDTO>> getListadoBicicletasDisponiblesEnEstacion(
@@ -194,7 +194,7 @@ public class EstacionesController {
     	});
 	}
 	
-	//http://localhost:8080/estaciones/{idEstacion}/bicicletas/{idBicicleta}
+	//http://localhost:8081/estaciones/{idEstacion}/bicicletas/{idBicicleta}
 	@Operation(summary = "Estacionar una Bicicleta en una Estacion", description = "Se indica la Bicicleta y Estacion donde se va a estacionar mediante sus ids")
 	@PostMapping(value = "/{idEstacion}/bicicletas/{idBicicleta}")
 	public ResponseEntity<Void> estacionarBicicleta(
@@ -206,7 +206,7 @@ public class EstacionesController {
 	
 	
 	//Funcion auxiliar para los listados de bicicletas
-	//http://localhost:8080/estaciones/bicicletas/{idBicicleta}}
+	//http://localhost:8081/estaciones/bicicletas/{idBicicleta}}
 	@Operation(summary = "Obtener la Bicicleta indicada", description ="Se indica el id de la Bicicleta")
 	@GetMapping("/bicicletas/{idBicicleta}")
 	public BicicletaDTO getBicicletaById(@PathVariable String idBicicleta) throws Exception {
