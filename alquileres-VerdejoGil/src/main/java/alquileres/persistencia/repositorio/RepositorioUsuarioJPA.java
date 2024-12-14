@@ -167,7 +167,6 @@ public class RepositorioUsuarioJPA implements RepositorioUsuario{
                 alquilerEntidad.setFechaFin(null);
             else
                 alquilerEntidad.setFechaFin(a.getFin().toString());
-            System.out.println(alquilerEntidad.getFechaFin());
             alquileres.add(alquilerEntidad);
         }
         

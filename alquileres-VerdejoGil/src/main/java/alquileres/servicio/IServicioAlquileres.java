@@ -1,5 +1,6 @@
 package alquileres.servicio;
 
+import alquileres.modelo.Alquiler;
 import alquileres.modelo.Usuario;
 import repositorio.EntidadNoEncontrada;
 import repositorio.RepositorioException;
@@ -24,6 +25,10 @@ public interface IServicioAlquileres {
 
     // Método para liberar bloqueo eliminando reservas caducadas
     public void liberarBloqueo(String idUsuario) throws RepositorioException, EntidadNoEncontrada;
+    
+    //Metodo para borrar las reservas para la bicicleta con id idBicicleta de los usuario
+    //Metodo que se usa al recibir evento de microservicio estaciones
+    void buscarAndEliminarReservasActivasDeBicicleta(String idBicicleta) throws RepositorioException, EntidadNoEncontrada;
     
     //Metodo para probar los usuarios bloqueados
     public void setTiempos(String idUsuario) throws RepositorioException, EntidadNoEncontrada;

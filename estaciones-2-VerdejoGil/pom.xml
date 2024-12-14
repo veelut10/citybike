@@ -94,6 +94,13 @@
 			<version>0.9.1</version>
 		</dependency>
 		
+		<!-- RabbitMQ bus de eventos -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+
+		
 	</dependencies>
 	
 	

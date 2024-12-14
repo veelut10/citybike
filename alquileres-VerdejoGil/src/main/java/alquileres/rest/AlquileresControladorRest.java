@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import alquileres.eventos.IServicioConsumidorEventos;
 import alquileres.modelo.Alquiler;
 import alquileres.modelo.Reserva;
 import alquileres.modelo.Usuario;
@@ -27,7 +28,7 @@ import servicio.FactoriaServicios;
 @Path("alquileres")
 public class AlquileresControladorRest {
 
-	IServicioAlquileres servicio = FactoriaServicios.getServicio(IServicioAlquileres.class);
+	private IServicioAlquileres servicio = FactoriaServicios.getServicio(IServicioAlquileres.class);
 	
 	@Context
 	private UriInfo uriInfo;
@@ -89,7 +90,7 @@ public class AlquileresControladorRest {
 		return Response.status(Response.Status.OK).entity(usuarioDTO).build();
 	}
 	
-	// curl -i -X POST --data "idBicicleta=1" http://localhost:8080/api/alquileres/1/reserva -H "Authorization: Bearer jwt_token"
+	// curl -i -X POST --data "idBicicleta=1" http://localhost:8080/api/alquileres/1/reserva -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c3VhcmlvIiwicm9sZXMiOiJ1c3VhcmlvIiwiZXhwIjoxNzM0MTc3NTIzfQ.3QpASto4dmb35z6dFNWUtRL9GX8YlbjYqnpzNrpu0Xk"
 
 	@POST
 	@Path("/{idUsuario}/reserva")

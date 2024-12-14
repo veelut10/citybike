@@ -2,7 +2,10 @@ package alquileres.servicio;
 
 import java.time.LocalDateTime;
 import java.util.Iterator;
+import java.util.List;
 
+import alquileres.eventos.IServicioConsumidorEventos;
+import alquileres.eventos.IServicioProductorEventos;
 import alquileres.modelo.Alquiler;
 import alquileres.modelo.Reserva;
 import alquileres.modelo.Usuario;
@@ -18,6 +21,8 @@ public class ServicioAlquileres implements IServicioAlquileres{
 	private RepositorioUsuario repositorioUsuarios = FactoriaRepositorios.getRepositorio(Usuario.class);
 	
 	private IServicioEstaciones servicioEstaciones = FactoriaServicios.getServicio(IServicioEstaciones.class);
+	
+	private IServicioProductorEventos servicioProductor = FactoriaServicios.getServicio(IServicioProductorEventos.class);
 	
 	@Override
 	public void reservar(String idUsuario, String idBicicleta) throws RepositorioException, EntidadNoEncontrada {
@@ -66,6 +71,12 @@ public class ServicioAlquileres implements IServicioAlquileres{
 			usuario.addAlquiler(alquiler);
 			usuario.removeReserva(reserva);
 			repositorioUsuarios.update(usuario);
+			try {
+				servicioProductor.producirEventoAlquilar(alquiler);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -90,6 +101,12 @@ public class ServicioAlquileres implements IServicioAlquileres{
 			Alquiler alquiler = new Alquiler(idBicicleta, LocalDateTime.now());
 			usuario.addAlquiler(alquiler);
 			repositorioUsuarios.update(usuario);
+			try {
+				servicioProductor.producirEventoAlquilar(alquiler);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -160,6 +177,20 @@ public class ServicioAlquileres implements IServicioAlquileres{
 		}
 		
 		repositorioUsuarios.update(usuario);
+	}
+	
+	//Metodo para borrar las reservas para la bicicleta con id idBicicleta de los usuario
+    //Metodo que se usa al recibir evento de microservicio estaciones
+	public void buscarAndEliminarReservasActivasDeBicicleta(String idBicicleta) throws RepositorioException, EntidadNoEncontrada {
+		List<Usuario> usuarios = repositorioUsuarios.getAll();
+		
+		for(Usuario us : usuarios) {
+			Reserva reserva = us.reservaActiva();
+			if(reserva != null && reserva.getIdBicicleta().equals(idBicicleta)) {
+				us.removeReserva(reserva);
+				repositorioUsuarios.update(us);
+			}
+		}
 	}
 	
 	//Funcion para las pruebas de bloquado

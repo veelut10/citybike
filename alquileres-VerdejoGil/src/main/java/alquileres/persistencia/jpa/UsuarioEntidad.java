@@ -18,9 +18,10 @@ public class UsuarioEntidad implements Identificable {
 	@Id
     private String id;
 
-    @OneToMany(cascade = CascadeType.ALL)	
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)	
     private List<ReservaEntidad> reservas;
 
+    
     @OneToMany(cascade = CascadeType.ALL)    
     private List<AlquilerEntidad> alquileres;
 
