@@ -36,7 +36,8 @@ public class Estacion{
 	@Column(name="latitud")
     private double latitud;
     
-	@OneToMany(cascade=CascadeType.ALL,
+	@OneToMany(mappedBy="estacion",
+			   cascade=CascadeType.ALL,
 			   fetch = FetchType.EAGER)
     private List<Bicicleta> bicicletas = new ArrayList<Bicicleta>();
 

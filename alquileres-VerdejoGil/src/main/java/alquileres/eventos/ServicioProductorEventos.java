@@ -1,6 +1,8 @@
 package alquileres.eventos;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -27,9 +29,12 @@ public class ServicioProductorEventos implements IServicioProductorEventos{
 		
 		channel.exchangeDeclare(exchangeName, type, durable);
 		
-		AlquilerEvento alquilerEvento = new AlquilerEvento(alquiler.getIdBicicleta(), alquiler.getInicio(), alquiler.getFin());
+		AlquilerEvento alquilerEvento = new AlquilerEvento(alquiler, "");
 		
 		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.registerModule(new JavaTimeModule());
+		objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+		
 		String alquilerJson = objectMapper.writeValueAsString(alquilerEvento);
 		
 		channel.basicPublish(exchangeName, bindingKey, new AMQP.BasicProperties.Builder()
@@ -41,7 +46,7 @@ public class ServicioProductorEventos implements IServicioProductorEventos{
 	}
 
 	@Override
-	public void producirEventoAlquilerConcluido(Alquiler alquiler) throws Exception {
+	public void producirEventoAlquilerConcluido(Alquiler alquiler, String idEstacion) throws Exception {
 		ConnectionFactory factory = new ConnectionFactory();
 		factory.setUri("amqps://mcnwuwgv:sx-pRl9UgCjXZGjttD9tyFjp6mw6CZZp@rat.rmq2.cloudamqp.com/mcnwuwgv");
 		
@@ -51,9 +56,12 @@ public class ServicioProductorEventos implements IServicioProductorEventos{
 		String exchangeName = "citybike";
 		String routingKey = "citybike.alquileres.bicicleta-alquiler-concluido";
 		
-		AlquilerEvento alquilerEvento = new AlquilerEvento(alquiler.getIdBicicleta(), alquiler.getInicio(), alquiler.getFin());
+		AlquilerEvento alquilerEvento = new AlquilerEvento(alquiler, idEstacion);
 		
 		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.registerModule(new JavaTimeModule());
+		objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+		
 		String alquilerJson = objectMapper.writeValueAsString(alquilerEvento);
 		
 		channel.basicPublish(exchangeName, routingKey, new AMQP.BasicProperties.Builder()

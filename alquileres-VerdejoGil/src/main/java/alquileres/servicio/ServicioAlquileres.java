@@ -150,6 +150,12 @@ public class ServicioAlquileres implements IServicioAlquileres{
 			servicioEstaciones.situarBicicleta(idBicicleta, idEstacion);
 			usuario.alquilerActivo().setFin(LocalDateTime.now());
 			repositorioUsuarios.update(usuario);
+			try {
+				servicioProductor.producirEventoAlquilerConcluido(usuario.getUltimoAlquiler(), idEstacion);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -179,9 +185,19 @@ public class ServicioAlquileres implements IServicioAlquileres{
 		repositorioUsuarios.update(usuario);
 	}
 	
+	
+    //---------------------------------------------------------------------------------------------------------------------
+	
+	
+	//Funcion para manejar el evento que recibe del microservicio Estaciones
+	
 	//Metodo para borrar las reservas para la bicicleta con id idBicicleta de los usuario
     //Metodo que se usa al recibir evento de microservicio estaciones
 	public void buscarAndEliminarReservasActivasDeBicicleta(String idBicicleta) throws RepositorioException, EntidadNoEncontrada {
+		
+		if (idBicicleta == null || idBicicleta.isEmpty())
+			throw new IllegalArgumentException("idBicicleta: no debe ser nulo ni vacio");
+		
 		List<Usuario> usuarios = repositorioUsuarios.getAll();
 		
 		for(Usuario us : usuarios) {

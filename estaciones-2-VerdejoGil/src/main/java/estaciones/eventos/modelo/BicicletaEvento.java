@@ -2,6 +2,8 @@ package estaciones.eventos.modelo;
 
 import java.time.LocalDate;
 
+import estaciones.modelo.Bicicleta;
+
 public class BicicletaEvento {
 	
 	private String id;
@@ -10,14 +12,13 @@ public class BicicletaEvento {
     private String motivoBaja;
     private boolean isDisponible;
     
-	public BicicletaEvento(String id, LocalDate fechaAlta, LocalDate fechaBaja, String motivoBaja,
-			boolean isDisponible) {
+	public BicicletaEvento(Bicicleta bici) {
 		super();
-		this.id = id;
-		this.fechaAlta = fechaAlta;
-		this.fechaBaja = fechaBaja;
-		this.motivoBaja = motivoBaja;
-		this.isDisponible = isDisponible;
+		this.id = bici.getId();
+		this.fechaAlta = bici.getFechaAlta();
+		this.fechaBaja = bici.getFechaBaja();
+		this.motivoBaja = bici.getMotivoBaja();
+		this.isDisponible = bici.isDisponible();
 	}
 	
 	public BicicletaEvento() {

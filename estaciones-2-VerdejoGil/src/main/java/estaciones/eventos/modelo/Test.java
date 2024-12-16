@@ -9,6 +9,8 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 import estaciones.EstacionesApp;
 import estaciones.eventos.bus.PublicadorEventos;
+import estaciones.modelo.Bicicleta;
+import estaciones.modelo.Estacion;
 
 public class Test {
 	public static void main(String[] args) {
@@ -16,9 +18,9 @@ public class Test {
 		
 		PublicadorEventos sender = context.getBean(PublicadorEventos.class);
 		
-		BicicletaEvento bici = new BicicletaEvento("1", LocalDate.now(), LocalDate.now().plusDays(1), "motivo", false);
+		Bicicleta bici = new Bicicleta("Modelo", LocalDate.now(), new Estacion());
 		
-		sender.emitirEvento(bici);
+		sender.emitirEventoBicicletaDesactivada(bici);
 		
 		System.out.println("Bici enviada");
 	}

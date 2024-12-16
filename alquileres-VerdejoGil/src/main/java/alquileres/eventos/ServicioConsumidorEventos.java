@@ -70,16 +70,13 @@ public class ServicioConsumidorEventos implements IServicioConsumidorEventos{
 							//Transformar de JSON a objeto
 							String contenido = new String(body);
 							
-							System.out.println(contenido);
 							ObjectMapper objectMapper = new ObjectMapper();
 							
 							objectMapper.registerModule(new JavaTimeModule()); // Para manejar fechas si usas LocalDate/LocalDateTime
-							objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-							
+							objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);		
 							
 							BicicletaEvento bici = objectMapper.readValue(contenido, BicicletaEvento.class);
 					
-							System.out.println(bici.getId());
 							try {
 								servicioAlquileres.buscarAndEliminarReservasActivasDeBicicleta(bici.getId());
 							} catch (RepositorioException | EntidadNoEncontrada e) {

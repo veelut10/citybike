@@ -35,7 +35,7 @@ public class AlquileresControladorRest {
 	
 	// Para usar el controlador primero se necesitara un token que se generara mediante la funcion login:
 	
-	//curl -X POST http://localhost:8080/api/auth/login -H "Content-Type: application/x-www-form-urlencoded" -d "username=juan&password=clave"
+	//curl -X POST http://localhost:8080/api/auth/login -H "Content-Type: application/x-www-form-urlencoded" -d "username=usuario&password=clave"
 
 	// Con la informacion de este token, si los claims tienen como rol="usuario" (la contruccion de los claims esta en ControladorAuth)
 	// el resto de funciones REST estara disponibles sustituyendo el token por jwt_token
@@ -90,7 +90,7 @@ public class AlquileresControladorRest {
 		return Response.status(Response.Status.OK).entity(usuarioDTO).build();
 	}
 	
-	// curl -i -X POST --data "idBicicleta=1" http://localhost:8080/api/alquileres/1/reserva -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c3VhcmlvIiwicm9sZXMiOiJ1c3VhcmlvIiwiZXhwIjoxNzM0MTc3NTIzfQ.3QpASto4dmb35z6dFNWUtRL9GX8YlbjYqnpzNrpu0Xk"
+	// curl -i -X POST --data "idBicicleta=1" http://localhost:8080/api/alquileres/1/reserva -H "Authorization: Bearer jwt_token"
 
 	@POST
 	@Path("/{idUsuario}/reserva")

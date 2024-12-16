@@ -45,6 +45,10 @@ public class Usuario implements Identificable{
 	public List<Alquiler> getAlquileres() {
 		return alquileres;
 	}
+	
+	public Alquiler getUltimoAlquiler() {
+		return alquileres.get(alquileres.size() - 1);
+	}
 
 	public void addAlquiler(Alquiler alquiler) {
 		this.alquileres.add(alquiler);

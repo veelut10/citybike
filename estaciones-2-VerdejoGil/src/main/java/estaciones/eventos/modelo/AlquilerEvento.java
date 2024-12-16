@@ -4,11 +4,13 @@ import java.time.LocalDateTime;
 
 public class AlquilerEvento {
 	private String idBicicleta;
+	private String idEstacion;
 	private LocalDateTime inicio;
 	private LocalDateTime fin;
 	
-	public AlquilerEvento(String idBicicleta, LocalDateTime inicio, LocalDateTime fin) {
+	public AlquilerEvento(String idBicicleta, LocalDateTime inicio, LocalDateTime fin, String idEstacion) {
 		this.idBicicleta = idBicicleta;
+		this.idEstacion = idEstacion;
 		this.inicio = inicio;
 		this.fin = fin;
 	}
@@ -23,6 +25,14 @@ public class AlquilerEvento {
 
 	public void setIdBicicleta(String idBicicleta) {
 		this.idBicicleta = idBicicleta;
+	}
+
+	public String getIdEstacion() {
+		return idEstacion;
+	}
+
+	public void setIdEstacion(String idEstacion) {
+		this.idEstacion = idEstacion;
 	}
 
 	public LocalDateTime getInicio() {

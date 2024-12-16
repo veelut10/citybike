@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import estaciones.eventos.bus.PublicadorEventos;
 import estaciones.modelo.Bicicleta;
 import estaciones.modelo.Estacion;
 import estaciones.repositorio.RepositorioBicicletas;
@@ -16,15 +18,18 @@ import repositorio.EntidadNoEncontrada;
 import repositorio.RepositorioException;
 
 @Service
+@Transactional
 public class ServicioEstaciones implements IServicioEstaciones{
 
 	private RepositorioEstaciones repositorioEstaciones;
 	private RepositorioBicicletas repositorioBicicletas;
+	private PublicadorEventos publicadorEventos;
 	
 	@Autowired
-	public ServicioEstaciones(RepositorioEstaciones repositorioEstaciones, RepositorioBicicletas repositorioBicicletas) {
+	public ServicioEstaciones(RepositorioEstaciones repositorioEstaciones, RepositorioBicicletas repositorioBicicletas, PublicadorEventos publicadorEventos) {
 		this.repositorioEstaciones = repositorioEstaciones;
 		this.repositorioBicicletas = repositorioBicicletas;
+		this.publicadorEventos = publicadorEventos;
 	}
 	
 	//Funciones del gestor
@@ -106,6 +111,7 @@ public class ServicioEstaciones implements IServicioEstaciones{
             
             // Actualizar bicicleta en el repositorio
             repositorioBicicletas.save(bicicleta);
+            publicadorEventos.emitirEventoBicicletaDesactivada(bicicleta);
         }
         else
         	throw new EntidadNoEncontrada("Bicicleta no encontrada con id: " + idBicicleta);
@@ -182,14 +188,13 @@ public class ServicioEstaciones implements IServicioEstaciones{
     		if(estacion.hasHueco()) {
     			// Si la bicicleta estaba en una estación, también actualizar esa
                 if (bicicleta.getEstacion() != null) {
-                    Estacion estacionAntigua = repositorioEstaciones.findById(bicicleta.getEstacion().getId()).get();
-                    estacionAntigua.removeBici(bicicleta);
-                    repositorioEstaciones.save(estacionAntigua);
+                	bicicleta.getEstacion().removeBici(bicicleta);
+                    repositorioEstaciones.save(bicicleta.getEstacion());
                 }
-    			estacion.addBici(bicicleta);
+    			bicicleta.setDisponible(true);
     			bicicleta.setEstacion(estacion);
-    			repositorioEstaciones.save(estacion);
-    	        repositorioBicicletas.save(bicicleta);
+    			estacion.addBici(bicicleta);
+    	        repositorioEstaciones.save(estacion);
     		}
     	}
     	else
@@ -207,4 +212,29 @@ public class ServicioEstaciones implements IServicioEstaciones{
 		else
     		throw new EntidadNoEncontrada("Bicicleta no encontrada con id: " + idBicicleta);	
 	}
+
+	
+	
+    //---------------------------------------------------------------------------------------------------------------------
+	
+	
+	//Funcion para manejar los eventos que recibe del microservicio Alquileres
+	
+	@Override
+	public void cambiarEstadoBicicletaToNoDisponible(String idBicicleta) throws RepositorioException, EntidadNoEncontrada {
+		
+		if (idBicicleta == null || idBicicleta.isEmpty()) 
+            throw new IllegalArgumentException("idBicicleta: no debe ser nulo ni vacio");
+        
+		Optional<Bicicleta> b = repositorioBicicletas.findById(idBicicleta);
+		
+		if(b.isPresent()) {
+			Bicicleta bicicleta = b.get();
+			bicicleta.setDisponible(false);
+			repositorioBicicletas.save(bicicleta);
+		}
+		else
+    		throw new EntidadNoEncontrada("Bicicleta no encontrada con id: " + idBicicleta);
+	}
+	
 }

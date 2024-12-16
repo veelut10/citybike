@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebListener;
 
 import servicio.FactoriaServicios;
 
+//Servlet encargado de inicializar el servicio consumidor de eventos
 @WebListener
 public class ServletConsumidoEventos implements ServletContextListener{
 	
