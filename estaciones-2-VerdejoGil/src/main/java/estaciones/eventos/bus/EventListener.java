@@ -36,10 +36,12 @@ public class EventListener {
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         
+        //Recibe el evento bici alquilada y pone la bicicleta a no disponible
         if(routingKey.equals("citybike.alquileres.bicicleta-alquilada")) {
         	AlquilerEvento alquilerEvento = objectMapper.readValue(body, AlquilerEvento.class);
         	servicioEstaciones.cambiarEstadoBicicletaToNoDisponible(alquilerEvento.getIdBicicleta());
         }
+        //Recibe el evento bici alquiler concluido y pone la bicicleta en la estacion indicada y vuelve a estar disponible
         else if(routingKey.equals("citybike.alquileres.bicicleta-alquiler-concluido")) {
         	AlquilerEvento alquilerEvento = objectMapper.readValue(body, AlquilerEvento.class);
         	servicioEstaciones.estacionarBicicleta(alquilerEvento.getIdBicicleta(), alquilerEvento.getIdEstacion());

@@ -5,6 +5,14 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>alquileres-VerdejoGil</name>
+  
+  <properties>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
+
   <dependencies>
 	  
 	  <!-- dependencia para convertidor JSON para RabbitMQ -->
@@ -39,6 +47,8 @@
 			<artifactId>eclipselink</artifactId>
 			<version>2.7.15</version>
 		</dependency>
+		
+		<!-- dependencia entity manager-->
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>javax.persistence-api</artifactId>

@@ -13,9 +13,11 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>estaciones-2-VerdejoGil</name>
 	<description>Encuestas</description>
+	
 	<properties>
 		<java.version>8</java.version>
 	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -52,7 +54,6 @@
 		<dependency>
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
-
 		</dependency>
 		
 		<!-- JPA -->

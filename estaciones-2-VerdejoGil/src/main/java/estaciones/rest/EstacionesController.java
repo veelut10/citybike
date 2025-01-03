@@ -41,6 +41,7 @@ import repositorio.EntidadNoEncontrada;
 import repositorio.RepositorioException;
 
 //ESPECIFICACIÓN OpenAPI E INTERFAZ Swagger UI
+//http://localhost:8081/estaciones para obtener el token
 //http://localhost:8081/v3/api-docs
 //http://localhost:8081/swagger-ui.html
 @RestController
