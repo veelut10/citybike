@@ -1087,11 +1087,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Jose Angel\\git\\citybike\\usuarios-VerdejoGil\\usuarios-VerdejoGil.csproj",
-      "projectName": "usuarios-VerdejoGil",
-      "projectPath": "C:\\Users\\Jose Angel\\git\\citybike\\usuarios-VerdejoGil\\usuarios-VerdejoGil.csproj",
+      "projectUniqueName": "C:\\Users\\Jose Angel\\git\\citybike\\usuarios\\usuarios.csproj",
+      "projectName": "usuarios",
+      "projectPath": "C:\\Users\\Jose Angel\\git\\citybike\\usuarios\\usuarios.csproj",
       "packagesPath": "C:\\Users\\Jose Angel\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Jose Angel\\git\\citybike\\usuarios-VerdejoGil\\obj\\",
+      "outputPath": "C:\\Users\\Jose Angel\\git\\citybike\\usuarios\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Jose Angel\\AppData\\Roaming\\NuGet\\NuGet.Config"

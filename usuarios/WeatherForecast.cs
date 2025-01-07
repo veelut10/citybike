@@ -1,4 +1,4 @@
-namespace usuarios_VerdejoGil;
+namespace usuarios;
 
 public class WeatherForecast
 {
