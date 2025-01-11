@@ -10,7 +10,7 @@ namespace Usuarios.Repositorio
 
         public RepositorioUsuariosMongoDB()
         {
-            var client = new MongoClient("url");
+            var client = new MongoClient("mongodb+srv://veelut10:ToLuSoTcSa1321093896@cluster0.jnphq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
             var database = client.GetDatabase("Cluster0");
 
             usuarios = database.GetCollection<Usuario>("usuarios.net");
