@@ -16,7 +16,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import servicio.FactoriaServicios;
 
-/*
+
 @Path("auth")
 public class ControladorAuth {
 	
@@ -46,4 +46,4 @@ public class ControladorAuth {
 		}
 	}
 }
-*/
+
