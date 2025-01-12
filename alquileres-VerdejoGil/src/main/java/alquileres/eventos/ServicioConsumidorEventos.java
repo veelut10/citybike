@@ -32,7 +32,7 @@ public class ServicioConsumidorEventos implements IServicioConsumidorEventos{
 	@Override
 	public void handleEvent() throws Exception {
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setUri("amqps://mcnwuwgv:sx-pRl9UgCjXZGjttD9tyFjp6mw6CZZp@rat.rmq2.cloudamqp.com/mcnwuwgv");
+		factory.setUri("amqp://user:password@rabbitmq:5672");
 		
 		Connection connection = factory.newConnection();
 		Channel channel = connection.createChannel();

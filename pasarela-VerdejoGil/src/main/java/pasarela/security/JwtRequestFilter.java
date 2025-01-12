@@ -26,7 +26,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 		
-		// Permite al metodo de alta de usuario no tener token hay q ver si esta parte es necesaria o si con el permitall de security config ya vale
 		if(request.getRequestURI().equals("/usuarios") && request.getMethod().equals("POST")) {
 			filterChain.doFilter(request, response);
 		}

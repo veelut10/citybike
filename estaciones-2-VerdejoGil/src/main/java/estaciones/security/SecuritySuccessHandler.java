@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-
+/*
 
 //Clase que recibe los datos de github de la autenticacion y crea el token
 @Component
@@ -52,8 +52,10 @@ public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
 		claims.put("sub", usuario.getAttribute("login"));
 		
 		//Modificar para probar los roles del usuario
-		claims.put("roles", "gestor");
+		claims.put("rol", "gestor");
 		
 		return claims;
 	}
+	
 }
+*/

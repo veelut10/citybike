@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Usuarios.Modelo;
 using Usuarios.Servicio;
@@ -15,6 +17,21 @@ namespace UsuariosControllers
     {
         public string OAuth2Id { get; set; }
     }
+
+    public class UsuarioDTO
+    {
+        public string Id { get; set; }
+     
+        public string Nombre { get; set; }
+
+        public string Contraseña { get; set; }
+
+        public string OAuth2Id { get; set; }
+
+        public string Rol { get; set; }
+
+        public CodigoActivacion CodigoActivacion { get; set; }
+    }
  
 
     [Route("api/usuarios")]
@@ -28,6 +45,7 @@ namespace UsuariosControllers
             _servicioUsuarios = servicio;
         }
 
+        //http://localhost:8090/usuarios/id1
         [HttpGet("{idUsuario}", Name = "GenerarCodigoActivacion")]
         public ActionResult<CodigoActivacion> Get(string idUsuario)
         {
@@ -39,12 +57,13 @@ namespace UsuariosControllers
             return codigoActivacion;
         }
 
+        //http://localhost:8090/usuarios + usuarioJSON
         [HttpPost (Name = "AltaUsuario")]
-        public ActionResult<Usuario> AltaUsuario(Usuario usuario)
+        public ActionResult<Usuario> AltaUsuario(UsuarioDTO usuarioDTO)
         {   
-            _servicioUsuarios.AltaUsuario(usuario.CodigoActivacion, usuario.Id, usuario.Nombre, usuario.Contraseña, usuario.OAuth2Id);
+            _servicioUsuarios.AltaUsuario(usuarioDTO.CodigoActivacion, usuarioDTO.Id, usuarioDTO.Nombre, usuarioDTO.Contraseña, usuarioDTO.OAuth2Id);
 
-            return CreatedAtRoute("GenerarCodigoActivacion", new {idUsuario = usuario.Id}, usuario); 
+            return CreatedAtRoute("GenerarCodigoActivacion", new {idUsuario = usuarioDTO.Id}, usuarioDTO); 
         }
 
         [HttpDelete ("{idUsuario}", Name = "BajaUsuario")]
@@ -59,6 +78,7 @@ namespace UsuariosControllers
         public ActionResult<Claims> VerificarUsuarioContraseña(UsuarioContraseña usuarioContraseña)
         {    
             Claims claims = _servicioUsuarios.VerificarUsuarioContraseña(usuarioContraseña.IdUsuario, usuarioContraseña.Contraseña);
+  
             if (claims == null){
                 return NotFound();
             }else{

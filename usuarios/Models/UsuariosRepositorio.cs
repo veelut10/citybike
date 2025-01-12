@@ -1,6 +1,8 @@
 using Repositorio;
 using MongoDB.Driver;
 using Usuarios.Modelo;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Usuarios.Repositorio
 {
@@ -10,10 +12,10 @@ namespace Usuarios.Repositorio
 
         public RepositorioUsuariosMongoDB()
         {
-            var client = new MongoClient("mongodb+srv://veelut10:ToLuSoTcSa1321093896@cluster0.jnphq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
-            var database = client.GetDatabase("Cluster0");
+            var client = new MongoClient("mongodb://root:practicas@mongo:27017");
+            var database = client.GetDatabase("usuarios");
 
-            usuarios = database.GetCollection<Usuario>("usuarios.net");
+            usuarios = database.GetCollection<Usuario>("usuarios");
         }
 
         public string Add(Usuario entity)

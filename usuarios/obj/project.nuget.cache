@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "B7D4UEg4XKrBDDXjl8dAfnEd110wzxv0ZfqfjAzwwn+SVtMuBrTsFgfzpnEOVNARJLUPbGSPt08yqamUoGx2Xg==",
+  "dgSpecHash": "8Fc2W15zhd4/vWXB9+txXX+498XXuMoiC+Tgg80t7NWcTPbe87C1xI9sIsTISsbwVHXEsShMSL/4NKv33nKcZA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Jose Angel\\git\\citybike\\usuarios\\usuarios.csproj",
+  "projectFilePath": "c:\\Users\\Jose Angel\\git\\citybike\\usuarios\\usuarios.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Jose Angel\\.nuget\\packages\\dnsclient\\1.6.0\\dnsclient.1.6.0.nupkg.sha512",
     "C:\\Users\\Jose Angel\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",

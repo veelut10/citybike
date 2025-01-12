@@ -1,0 +1,111 @@
+version: "3.7"
+
+services:
+  pasarela:
+    build: .
+    ports:
+      - "8090:8080"
+    depends_on:
+      - mongo
+      - alquileres
+      - estaciones
+      - usuarios
+      - mysql
+      - rabbitmq
+    environment:
+      - SERVER_PORT=8080
+      - SPRING_APPLICATION_NAME=pasarela
+      - ZUUL_SENSITIVEHEADERS=
+      - ZUUL_ROUTES_ALQUILERES_PATH=/alquileres/**
+      - ZUUL_ROUTES_ALQUILERES_URL=http://alquileres:8080/api/alquileres
+      - ZUUL_ROUTES_ESTACIONES_PATH=/estaciones/**
+      - ZUUL_ROUTES_ESTACIONES_URL=http://estaciones:8080/estaciones
+      - ZUUL_ROUTES_USUARIOS_PATH=/usuarios/**
+      - ZUUL_ROUTES_USUARIOS_URL=http://usuarios:5000/api/usuarios
+      - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GITHUB_CLIENTID=Ov23liAAtMsVlMjF4OPe
+      - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GITHUB_CLIENTSECRET=f5ea19705f8404f21c92c2a91e27a84fb9254079
+
+  alquileres:
+    build: ./../alquileres-VerdejoGil
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+      - rabbitmq
+    environment:
+      - JDBC_URL=jdbc:mysql://mysql:3306/alquileres
+      - JDBC_USER=root
+      - JDBC_PASSWORD=practicas
+
+  estaciones:
+    build: ./../estaciones-2-VerdejoGil
+    ports:
+      - "8081:8080"
+    depends_on:
+      - mysql
+      - rabbitmq
+    environment:
+      - SERVER_PORT=8080
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-service:3306/estaciones?serverTimezone=CET
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=practicas
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_RABBITMQ_ADDRESSES=amqp://user:password@rabbitmq:5672
+      - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GITHUB_CLIENTID=Ov23liAAtMsVlMjF4OPe
+      - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GITHUB_CLIENTSECRET=f5ea19705f8404f21c92c2a91e27a84fb9254079
+
+
+  usuarios:
+    build: ./../usuarios
+    ports:
+      - "8082:5000"
+    depends_on:
+      - mongo
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://root:practicas@mongo:27017/usuarios?authSource=admin
+
+  mongo: 
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: practicas
+
+  mongo-express: 
+    image: mongo-express
+    restart: always
+    ports:
+      - 8083:8081
+    environment:
+      ME_CONFIG_BASICAUTH: false
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: practicas
+      ME_CONFIG_MONGODB_URL: mongodb://root:practicas@mongo:27017/
+    depends_on:
+      - mongo
+    
+  mysql:
+    image: mysql:latest
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: alquileres
+      MYSQL_ROOT_PASSWORD: practicas
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+
+  rabbitmq:
+    image: rabbitmq:management
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password

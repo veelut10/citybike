@@ -7,7 +7,7 @@ COPY src ./src
 RUN mvn package
 
 FROM openjdk:8
-COPY --from=builder /app/target/estaciones-2-VerdejoGil-0.0.1-SNAPSHOT.jar /root.jar
+COPY --from=builder /app/target/pasarela-VerdejoGil-0.0.1-SNAPSHOT.jar /root.jar
 CMD ["java", "-jar", "/root.jar"]
 
 EXPOSE 8080

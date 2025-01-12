@@ -12,7 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Repositorio;
 
-namespace BookleApi
+namespace usuarios
 {
     public class Startup
     {
@@ -27,7 +27,7 @@ namespace BookleApi
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddSingleton<Repositorio<Usuario, String>, RepositorioUsuariosMongoDB>(); 
+            services.AddSingleton<Repositorio<Usuario, string>, RepositorioUsuariosMongoDB>(); 
 
             services.AddSingleton<IServicioUsuarios,ServicioUsuarios>(); 
 

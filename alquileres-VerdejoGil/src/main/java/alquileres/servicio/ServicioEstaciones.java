@@ -15,7 +15,7 @@ public class ServicioEstaciones implements IServicioEstaciones{
 	
 	@Override
 	public boolean hasHuecoDisponible(String idEstacion) throws ServicioAlquileresException {
-		Retrofit retrofit = new Retrofit.Builder().baseUrl("http://localhost:8081/").addConverterFactory(GsonConverterFactory.create()).build();
+		Retrofit retrofit = new Retrofit.Builder().baseUrl("http://estaciones:8080/estaciones/").addConverterFactory(GsonConverterFactory.create()).build();
 		
 		clienteEstaciones = retrofit.create(ClienteEstaciones.class);
 		
@@ -31,7 +31,7 @@ public class ServicioEstaciones implements IServicioEstaciones{
 	
 	@Override
 	public void situarBicicleta(String idBicicleta, String idEstacion) throws ServicioAlquileresException  {
-		Retrofit retrofit = new Retrofit.Builder().baseUrl("http://localhost:8081/").addConverterFactory(GsonConverterFactory.create()).build();
+		Retrofit retrofit = new Retrofit.Builder().baseUrl("http://estaciones:8080/estaciones/").addConverterFactory(GsonConverterFactory.create()).build();
 		
 		clienteEstaciones = retrofit.create(ClienteEstaciones.class);
 		

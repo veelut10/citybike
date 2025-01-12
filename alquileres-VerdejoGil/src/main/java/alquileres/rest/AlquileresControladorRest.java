@@ -45,7 +45,7 @@ public class AlquileresControladorRest {
 	@GET
 	@Path("{idUsuario}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@RolesAllowed("usuario")
+	@RolesAllowed({"usuario", "gestor"})
 	public Response getHistoria(@PathParam("idUsuario") String idUsuario) throws Exception {
 		
 		//Se obtiene el usuario

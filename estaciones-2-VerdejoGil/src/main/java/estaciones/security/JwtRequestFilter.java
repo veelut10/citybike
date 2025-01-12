@@ -47,7 +47,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			if (caducidad.before(new Date()))
 				response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token JWT ha expirado");
 			
-			String[] roles = claims.get("roles", String.class).split(",");
+			String[] roles = claims.get("rol", String.class).split(",");
 			ArrayList<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 			
 			for(String rol : roles) 

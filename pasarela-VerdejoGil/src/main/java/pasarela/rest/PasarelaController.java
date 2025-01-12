@@ -18,7 +18,6 @@ import pasarela.retrofit.IdentificadorOAuth2;
 import pasarela.retrofit.UsuarioContraseña;
 import pasarela.servicio.IServicioUsuarios;
 
-//http://localhost:8090/auth/oauth2 para obtener el token
 @RestController
 @RequestMapping("/auth")
 public class PasarelaController {
@@ -30,6 +29,7 @@ public class PasarelaController {
 		this.servicioUsuarios = servicio;
 	}
 
+	//http://localhost:8090/auth/login + usuarioContraseñaJSON para obtener el token
 	@PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> autenticarConContraseña( @RequestBody UsuarioContraseña usuarioContraseña) throws Exception {
 		
@@ -41,6 +41,7 @@ public class PasarelaController {
 		return ResponseEntity.ok(claimsAndToken);
 	}
 
+	//http://localhost:8090/auth/oauth2 para obtener el token
 	@PostMapping(value = "/oauth2")
 	public void autenticarConOAuth2() throws Exception {
 		

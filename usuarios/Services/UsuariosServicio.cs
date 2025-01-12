@@ -1,6 +1,9 @@
 
 using Usuarios.Modelo;
 using Repositorio;
+using System.Collections.Generic;
+using System.Linq;
+using System;
 
 namespace Usuarios.Servicio
 {
@@ -22,9 +25,9 @@ namespace Usuarios.Servicio
 
     public class ServicioUsuarios : IServicioUsuarios
     {
-        private Repositorio<Usuario, String> repositorioUsuarios;
+        private Repositorio<Usuario, string> repositorioUsuarios;
         
-        public ServicioUsuarios(Repositorio<Usuario, String> repositorio)
+        public ServicioUsuarios(Repositorio<Usuario, string> repositorio)
         {
             repositorioUsuarios = repositorio;
         }
@@ -65,7 +68,6 @@ namespace Usuarios.Servicio
                             Nombre = nombreUsuario,
                             Contraseña = contraseña,
                             Rol = "usuario",
-                            CodigoActivacion = codigoActivacion
                         };
 
                         repositorioUsuarios.Add(usuario);
@@ -82,7 +84,6 @@ namespace Usuarios.Servicio
                             Nombre = nombreUsuario,
                             OAuth2Id = oauth2Id,
                             Rol = "usuario",
-                            CodigoActivacion = codigoActivacion
                         };
 
                         repositorioUsuarios.Add(usuario);

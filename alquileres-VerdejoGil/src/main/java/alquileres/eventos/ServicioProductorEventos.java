@@ -16,7 +16,7 @@ public class ServicioProductorEventos implements IServicioProductorEventos{
 	@Override
 	public void producirEventoAlquilar(Alquiler alquiler) throws Exception {
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setUri("amqps://mcnwuwgv:sx-pRl9UgCjXZGjttD9tyFjp6mw6CZZp@rat.rmq2.cloudamqp.com/mcnwuwgv");
+		factory.setUri("amqp://user:password@rabbitmq:5672");
 		
 		Connection connection = factory.newConnection();
 		Channel channel = connection.createChannel();
@@ -48,7 +48,7 @@ public class ServicioProductorEventos implements IServicioProductorEventos{
 	@Override
 	public void producirEventoAlquilerConcluido(Alquiler alquiler, String idEstacion) throws Exception {
 		ConnectionFactory factory = new ConnectionFactory();
-		factory.setUri("amqps://mcnwuwgv:sx-pRl9UgCjXZGjttD9tyFjp6mw6CZZp@rat.rmq2.cloudamqp.com/mcnwuwgv");
+		factory.setUri("amqp://user:password@rabbitmq:5672");
 		
 		Connection connection = factory.newConnection();
 		Channel channel = connection.createChannel();

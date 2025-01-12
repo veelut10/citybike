@@ -57,7 +57,7 @@ public class JwtTokenFilter implements ContainerRequestFilter {
 					requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
 
 				// control por roles
-				Set<String> roles = new HashSet<>(Arrays.asList(claims.get("roles", String.class).split(",")));
+				Set<String> roles = new HashSet<>(Arrays.asList(claims.get("rol", String.class).split(",")));
 
 				// Consulta si la operación está protegida por rol
 				if (this.resourceInfo.getResourceMethod().isAnnotationPresent(RolesAllowed.class)) {

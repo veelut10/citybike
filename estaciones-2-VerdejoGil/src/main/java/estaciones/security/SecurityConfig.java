@@ -13,9 +13,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	/*
 	@Autowired
 	private SecuritySuccessHandler successHandler;
-
+	*/
+	
 	@Autowired
 	private JwtRequestFilter authenticationRequestFilter;
 
@@ -31,14 +33,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, "/estaciones/{idEstacion}/bicicletas/{idBicicleta}")
 				.permitAll()
 				.antMatchers("/estaciones/**")
-				.authenticated()
+				.authenticated();
+				/*
 				.and()
 				.oauth2Login()
 				.successHandler(this.successHandler)
 				.and()
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+				*/
+				
 		// Establece el filtro de autenticación en la cadena de filtros de seguridad
 		httpSecurity.addFilterBefore(this.authenticationRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}

@@ -8,9 +8,9 @@ import retrofit2.http.Path;
 
 public interface ClienteEstaciones {
 	
-	@GET("estaciones/{idEstacion}")
+	@GET("{idEstacion}")
 	Call<EstacionDTO> getEstacionById(@Path("idEstacion") String idEstacion);
 	
-	@POST("estaciones/{idEstacion}/bicicletas/{idBicicleta}")
+	@POST("{idEstacion}/bicicletas/{idBicicleta}")
 	Call<Void> estacionarBicicleta(@Path("idEstacion") String idEstacion, @Path("idBicicleta") String idBicicleta);
 }

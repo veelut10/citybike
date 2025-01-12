@@ -24,7 +24,7 @@ public class ServicioUsuarios implements IServicioUsuarios {
 	
 	@Override
 	public Map<String, Object> getClaimsConContraseña(UsuarioContraseña usuarioContraseña){
-		Retrofit retrofit = new Retrofit.Builder().baseUrl("http://localhost:5235/").addConverterFactory(GsonConverterFactory.create()).build();
+		Retrofit retrofit = new Retrofit.Builder().baseUrl("http://usuarios:5000/api/usuarios/").addConverterFactory(GsonConverterFactory.create()).build();
 		
 		clienteUsuarios = retrofit.create(ClienteUsuarios.class);
 		
@@ -62,7 +62,7 @@ public class ServicioUsuarios implements IServicioUsuarios {
 
 	@Override
 	public ClaimsDTO getClaimsConOAuth2(IdentificadorOAuth2 identificadorOAuth2){
-		Retrofit retrofit = new Retrofit.Builder().baseUrl("http://localhost:5235/").addConverterFactory(GsonConverterFactory.create()).build();
+		Retrofit retrofit = new Retrofit.Builder().baseUrl("http://usuarios:5000/api/usuarios/").addConverterFactory(GsonConverterFactory.create()).build();
 		
 		clienteUsuarios = retrofit.create(ClienteUsuarios.class);
 		
