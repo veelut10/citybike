@@ -4,41 +4,20 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import org.hibernate.annotations.GenericGenerator;
-
-@Entity
-@Table(name="estacion")
+@Document(collection = "estacion")
 public class Estacion{
 
 	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
-	@Column(name="nombre")
 	private String nombre;
-	@Column(name = "fecha_alta", columnDefinition = "DATE")
     private LocalDate fechaAlta;
-	@Column(name="num_puestos")
     private int numPuestos;
-	@Column(name="direccion")
     private String direccion;
-	@Column(name="longitud")
     private double longitud;
-	@Column(name="latitud")
     private double latitud;
-    
-	@OneToMany(mappedBy="estacion",
-			   cascade=CascadeType.ALL,
-			   fetch = FetchType.EAGER)
     private List<Bicicleta> bicicletas = new ArrayList<Bicicleta>();
 
 	public Estacion(String nombre, int numPuestos, String direccion, double longitud, double latitud) {

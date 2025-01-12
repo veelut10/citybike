@@ -42,15 +42,12 @@ services:
     ports:
       - "8081:8080"
     depends_on:
-      - mysql
+      - mongo
       - rabbitmq
     environment:
       - SERVER_PORT=8080
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-service:3306/estaciones?serverTimezone=CET
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=practicas
-      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_DATA_MONGODB_URI=mongodb://root:practicas@mongo:27017
+      - SPRING_DATA_MONGODB_DATABASE=estaciones
       - SPRING_RABBITMQ_ADDRESSES=amqp://user:password@rabbitmq:5672
       - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GITHUB_CLIENTID=Ov23liAAtMsVlMjF4OPe
       - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GITHUB_CLIENTSECRET=f5ea19705f8404f21c92c2a91e27a84fb9254079
@@ -90,13 +87,15 @@ services:
       - mongo
     
   mysql:
-    image: mysql:latest
+    image: mysql
     restart: always
     ports:
       - "3307:3306"
     environment:
       MYSQL_DATABASE: alquileres
       MYSQL_ROOT_PASSWORD: practicas
+      MYSQL_USER: root
+      MYSQL_PASSWORD: practicas
     volumes:
       - ./mysql_data:/var/lib/mysql
 

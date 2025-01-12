@@ -2,39 +2,19 @@ package estaciones.modelo;
 
 import java.time.LocalDate;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import org.hibernate.annotations.GenericGenerator;
-
-@Entity
-@Table(name="bicicleta")
+@Document(collection = "bicicleta")
 public class Bicicleta{
 	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
-	@Column(name="nombre")
     private String modelo;
-    @Column(name = "fecha_alta", columnDefinition = "DATE")
     private LocalDate fechaAlta;
-    @Column(name = "fecha_baja", columnDefinition = "DATE")
     private LocalDate fechaBaja = null;
-    @Column(name="motivo_baja")
     private String motivoBaja = null;
-    
-    @ManyToOne
-    @JoinColumn(name = "estacion")
     private Estacion estacion;
-    @Column(name = "disponible")
     private boolean isDisponible = true;
-
 
 	public Bicicleta(String modelo, LocalDate fechaAlta, Estacion estacion) {
 		super();
